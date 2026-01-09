@@ -13,7 +13,7 @@ export function leaveBalanceComputation(data: {
 	console.log("computed_hours", computed_hours)
 	console.log("computed_min", computed_mins)
 
-	return [cost, roundUp(Number(data.balance)) - cost]
+	return [cost, roundUp(Number(data.balance) - cost)]
 	// return Number(data.balance) + Number(data.hours) + Number(data.minutes)
 }
 

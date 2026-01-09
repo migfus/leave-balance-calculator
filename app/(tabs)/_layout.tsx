@@ -1,8 +1,6 @@
 import React from "react"
 
-import { TabIconProps } from "@/globalInterface"
-import { Text, View } from "react-native"
-
+import { useThemeStore } from "@/store/themeStore"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import { StatusBar } from "expo-status-bar"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -12,24 +10,28 @@ import Settings from "./settings"
 
 const Tab = createMaterialTopTabNavigator()
 
-const TabIcon = ({ children, title }: TabIconProps) => {
-	return (
-		// I cannot expand the view
-		<View className="flex items-center">
-			{children}
-			<Text style={{ fontSize: 12, marginTop: 4 }}>{title}</Text>
-		</View>
-	)
-}
+const Layout = () => {
+	const theme = useThemeStore((s) => s.theme)
+	const theme_hydrated = useThemeStore.persist.hasHydrated()
 
-const _Layout = () => {
+	if (!theme_hydrated) {
+		return null
+	}
+
 	return (
-		<SafeAreaView className="bg-white h-full">
+		<SafeAreaView
+			className={`${theme ? "bg-neutral-900" : "bg-neutral-50"} h-full `}
+		>
 			<Tab.Navigator
 				screenOptions={{
-					tabBarIndicatorStyle: { backgroundColor: "#000" },
-					tabBarLabelStyle: { fontSize: 12 },
-					tabBarStyle: { backgroundColor: "#fff" }
+					tabBarIndicatorStyle: { backgroundColor: "#80c8b7" },
+					tabBarLabelStyle: {
+						fontSize: 12,
+						color: theme ? "#fafafa" : "#0a0a0a"
+					},
+					tabBarStyle: {
+						backgroundColor: theme ? "#171717" : "#fafafa"
+					}
 				}}
 			>
 				<Tab.Screen name="Home" component={Index} />
@@ -37,9 +39,9 @@ const _Layout = () => {
 				<Tab.Screen name="Settings" component={Settings} />
 			</Tab.Navigator>
 
-			<StatusBar style="dark" />
+			<StatusBar style={theme ? "light" : "dark"} />
 		</SafeAreaView>
 	)
 }
 
-export default _Layout
+export default Layout

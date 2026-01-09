@@ -1,61 +1,82 @@
 import { LeaveBalanceHistory } from "@/globalInterface"
+import { useLeaveHistory } from "@/store/historyStore"
+import { useThemeStore } from "@/store/themeStore"
 import { leaveBalanceComputation } from "@/utils"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import React, { useEffect, useState } from "react"
-import { FlatList, Text, TouchableOpacity, View } from "react-native"
+import React from "react"
+import {
+	FlatList,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	View
+} from "react-native"
 
 const HistoryCard = ({
 	history,
-	onPress
+	onPress,
+	theme
 }: {
 	history: LeaveBalanceHistory[]
 	onPress: () => void
+	theme: boolean
 }) => {
 	return (
 		<View className="flex flex-1">
 			<TouchableOpacity
 				onPress={onPress}
-				className="px-4 pt-4 flex justify-between flex-row bg-white p-4 rounded-2xl"
+				className={`${theme ? "bg-neutral-900 " : "bg-neutral-50 "} px-4 pt-4 flex justify-between flex-row p-4 rounded-2xl`}
 			>
-				<Text className="text-neutral-600">Clear History</Text>
-				<Text className="text-neutral-400">{history.length}</Text>
+				<Text className={`${theme ? "text-neutral-100" : "text-neutral-600"}`}>
+					Clear History
+				</Text>
+				<Text className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}>
+					{history.length}
+				</Text>
 			</TouchableOpacity>
-			<View className="mt-4">
+			<View className="mt-4 flex-1">
 				<FlatList
 					data={history}
 					keyExtractor={(item) => item.timeStamps}
-					scrollEnabled={false}
+					scrollEnabled={true}
 					contentContainerStyle={{ gap: 8 }}
 					renderItem={({ item }) => (
-						<View className="bg-white flex flex-row justify-end p-4 rounded-2xl">
+						<View
+							className={`${theme ? "bg-neutral-900" : "bg-neutral-50 "} flex flex-row justify-end p-4 rounded-2xl`}
+						>
 							<View className="flex flex-row items-center">
 								<Text
 									numberOfLines={1}
-									className="text-neutral-400"
+									className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
 								>{`${item.balance} `}</Text>
 								<Text numberOfLines={1} className="text-neutral-400 text-xs ">
 									{`bal `}
 								</Text>
-								<Text numberOfLines={1} className="text-neutral-400">
+								<Text
+									numberOfLines={1}
+									className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
+								>
 									{`- `}
 								</Text>
 
 								<Text
 									numberOfLines={1}
-									className="text-neutral-400"
+									className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
 								>{`${item.hours} `}</Text>
 								<Text numberOfLines={1} className="text-neutral-400 text-xs">
 									{`hr `}
 								</Text>
 								<Text
 									numberOfLines={1}
-									className="text-neutral-400"
+									className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
 								>{`${item.minutes} `}</Text>
 								<Text numberOfLines={1} className="text-neutral-400 text-xs">
 									{`min `}
 								</Text>
 
-								<Text numberOfLines={1} className="text-neutral-400">
+								<Text
+									numberOfLines={1}
+									className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
+								>
 									{`= `}
 								</Text>
 							</View>
@@ -63,7 +84,7 @@ const HistoryCard = ({
 							<View className="flex flex-row">
 								<Text
 									numberOfLines={1}
-									className="text-neutral-600 text-4xl font-semibold"
+									className={`${theme ? "text-neutral-200" : "text-neutral-600"} text-4xl font-semibold`}
 								>{`${leaveBalanceComputation(item)[1]} `}</Text>
 							</View>
 						</View>
@@ -75,26 +96,28 @@ const HistoryCard = ({
 }
 
 export default function Index() {
-	const [history, setHistory] = useState<LeaveBalanceHistory[]>([])
+	const history = useLeaveHistory((s) => s.history)
+	const hydrated = useLeaveHistory.persist.hasHydrated()
+	const resetHistory = useLeaveHistory((s) => s.reset)
 
-	useEffect(() => {
-		async function getHistory() {
-			const history = await AsyncStorage.getItem("history")
+	const theme = useThemeStore((s) => s.theme)
+	const theme_hydrated = useThemeStore.persist.hasHydrated()
 
-			setHistory(history ? JSON.parse(history) : [])
-		}
+	if (!theme_hydrated) {
+		return
+	}
 
-		getHistory()
-	}, [])
-
-	async function removeHistory() {
-		await AsyncStorage.setItem("history", "")
-		setHistory([])
+	if (!hydrated) {
+		return null // or splash screen
 	}
 
 	return (
-		<View className="flex flex-col justify-between h-full gap-4 p-4">
-			<HistoryCard history={history} onPress={() => removeHistory()} />
-		</View>
+		<ScrollView className="flex-1 gap-4 p-4">
+			<HistoryCard
+				history={history}
+				onPress={() => resetHistory()}
+				theme={theme}
+			/>
+		</ScrollView>
 	)
 }
