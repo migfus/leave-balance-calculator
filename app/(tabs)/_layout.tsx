@@ -1,11 +1,16 @@
-import { Tabs } from "expo-router"
 import React from "react"
 
 import { TabIconProps } from "@/globalInterface"
-import HistoryIcon from "@/icons/historyIcon"
-import HomeIcon from "@/icons/homeIcon"
-import SettingsIcon from "@/icons/settingsIcon"
 import { Text, View } from "react-native"
+
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
+import { StatusBar } from "expo-status-bar"
+import { SafeAreaView } from "react-native-safe-area-context"
+import History from "./history"
+import Index from "./index"
+import Settings from "./settings"
+
+const Tab = createMaterialTopTabNavigator()
 
 const TabIcon = ({ children, title }: TabIconProps) => {
 	return (
@@ -19,93 +24,21 @@ const TabIcon = ({ children, title }: TabIconProps) => {
 
 const _Layout = () => {
 	return (
-		<Tabs
-			screenOptions={{
-				tabBarShowLabel: false,
-				tabBarItemStyle: {
-					// width: "100%",
-					// height: "100%",
-					justifyContent: "center",
-					alignItems: "stretch",
-					flex: 1
-				},
-				tabBarStyle: {
-					backgroundColor: "#fff",
-					borderRadius: 50,
-					marginHorizontal: 20,
-					marginVertical: 30,
-					position: "absolute",
-					overflow: "hidden",
-					shadowOpacity: 0.1,
-					elevation: 2
-				},
-				tabBarIconStyle: {
-					flex: 1, // IMPORTANT
-					width: "100%",
-					alignItems: "center",
-					justifyContent: "center",
-					marginTop: 20
-				}
-			}}
-		>
-			<Tabs.Screen
-				name="index"
-				options={{
-					headerShown: false,
-					title: "Home",
-					tabBarIcon: ({ focused }) => (
-						<>
-							<TabIcon title="Home">
-								<HomeIcon
-									width={25}
-									height={25}
-									color="#3f3f3f"
-									outline={!focused}
-								/>
-							</TabIcon>
-						</>
-					)
+		<SafeAreaView className="bg-white h-full">
+			<Tab.Navigator
+				screenOptions={{
+					tabBarIndicatorStyle: { backgroundColor: "#000" },
+					tabBarLabelStyle: { fontSize: 12 },
+					tabBarStyle: { backgroundColor: "#fff" }
 				}}
-			/>
-			<Tabs.Screen
-				name="history"
-				options={{
-					headerShown: false,
-					title: "History",
-					tabBarIcon: ({ focused }) => (
-						<>
-							<TabIcon title="HIstory">
-								<HistoryIcon
-									width={25}
-									height={25}
-									color="#3f3f3f"
-									outline={!focused}
-								/>
-							</TabIcon>
-						</>
-					)
-				}}
-			/>
-			<Tabs.Screen
-				name="settings"
-				options={{
-					headerShown: false,
-					title: "Settings",
-					tabBarIcon: ({ focused }) => (
-						<>
-							<TabIcon title="Settings">
-								<SettingsIcon
-									width={25}
-									height={25}
-									color="#3f3f3f"
-									outline={!focused}
-								/>
-							</TabIcon>
-						</>
-					)
-				}}
-			/>
-		</Tabs>
+			>
+				<Tab.Screen name="Home" component={Index} />
+				<Tab.Screen name="History" component={History} />
+				<Tab.Screen name="Settings" component={Settings} />
+			</Tab.Navigator>
+
+			<StatusBar style="dark" />
+		</SafeAreaView>
 	)
 }
 
