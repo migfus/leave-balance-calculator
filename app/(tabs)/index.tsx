@@ -243,6 +243,8 @@ export default function Index() {
 	}
 
 	function reset() {
+		if (balance === "0" && hours === "0" && minutes === "0") return
+
 		addHistory({
 			balance,
 			hours,
