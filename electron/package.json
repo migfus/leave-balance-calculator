@@ -1,17 +1,39 @@
 {
-	"name": "electron",
+	"name": "leave-balance-calculator",
 	"version": "1.0.0",
 	"description": "",
+	"type": "module",
 	"main": "main.js",
 	"scripts": {
 		"start": "electron .",
-		"build": "electron-builder"
+		"export:web": "cd .. && npx expo export --platform web --output-dir electron/dist",
+		"build": "electron-builder",
+		"build:win": "electron-builder --win"
+	},
+	"build": {
+		"appId": "com.leavebalancecalculator.app",
+		"productName": "Leave Balance Calculator",
+		"icon": "../assets/images/icon.png",
+		"directories": {
+			"output": "release"
+		},
+		"files": [
+			"dist/**/*",
+			"main.js",
+			"package.json"
+		],
+		"win": {
+			"icon": "../assets/images/icon.png",
+			"target": [
+				"nsis"
+			]
+		}
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"type": "commonjs",
 	"devDependencies": {
-		"electron": "^39.2.7"
+		"electron": "^39.2.7",
+		"electron-builder": "^25.1.8"
 	}
 }

@@ -5,14 +5,18 @@ import TextInputForm from "@/components/forms/TextInputForm"
 import { useLeaveHistory } from "@/store/historyStore"
 import { useThemeStore } from "@/store/themeStore"
 import * as Haptics from "expo-haptics"
-import React, { useState } from "react"
-import { ActivityIndicator, View } from "react-native"
+import React, { useRef, useState } from "react"
+import { ActivityIndicator, TextInput, View } from "react-native"
 
 export default function Index() {
 	const [balance, setBalance] = useState<string>("0")
 	const [hours, setHours] = useState<string>("0")
 	const [minutes, setMinutes] = useState<string>("0")
 	const [select, setSelect] = useState<string>("balance")
+
+	const balanceInputRef = useRef<TextInput>(null)
+	const hoursInputRef = useRef<TextInput>(null)
+	const minutesInputRef = useRef<TextInput>(null)
 
 	const history = useLeaveHistory((s) => s.history)
 	const addHistory = useLeaveHistory((s) => s.addHistory)
@@ -46,43 +50,48 @@ export default function Index() {
 			/>
 
 			{/* SECTION: INPUT FORM */}
-			<TextInputForm
-				title="Balance"
-				value={balance}
-				full={false}
-				selected={select === "balance"}
-				onPressIn={() => {
-					setSelect("balance")
-					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-				}}
-				setValue={(value: string) => setBalance(value)}
-				theme={theme}
-			/>
+			<View className="flex flex-row gap-4">
+				<TextInputForm
+					title="Prev Balance"
+					value={balance}
+					selected={select === "balance"}
+					inputRef={balanceInputRef}
+					onPressIn={() => {
+						setSelect("balance")
+						Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+					}}
+					setValue={(value: string) => setBalance(value)}
+					theme={theme}
+					noDot={false}
+				/>
+			</View>
 
 			<View className="flex flex-row gap-4">
 				<TextInputForm
 					title="Hours"
 					value={hours}
-					full={true}
 					selected={select === "hours"}
+					inputRef={hoursInputRef}
 					onPressIn={() => {
 						setSelect("hours")
 						Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 					}}
 					setValue={(value: string) => setHours(value)}
 					theme={theme}
+					noDot={true}
 				/>
 				<TextInputForm
 					title="Minutes"
 					value={minutes}
-					full={true}
 					selected={select === "minutes"}
+					inputRef={minutesInputRef}
 					onPressIn={() => {
 						setSelect("minutes")
 						Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 					}}
 					setValue={(value: string) => setMinutes(value)}
 					theme={theme}
+					noDot={true}
 				/>
 			</View>
 
@@ -98,6 +107,9 @@ export default function Index() {
 				addHistory={addHistory}
 				setSelect={setSelect}
 				setMinutes={setMinutes}
+				onResetAll={() => {
+					balanceInputRef.current?.focus()
+				}}
 			/>
 		</View>
 	)

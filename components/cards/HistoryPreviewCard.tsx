@@ -53,35 +53,35 @@ const HistoryPreviewCard = ({
 							>
 								{messengerStyleTime(item.timeStamps)}
 							</Text>
-							<View className="flex flex-row justify-end ">
+							<View className="flex flex-row justify-end gap-4">
 								<View className="flex flex-row items-end">
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
+										className={`${theme ? "text-neutral-200" : "text-neutral-800"}`}
 									>{`${item.balance} `}</Text>
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-600"} text-xs`}
+										className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-xs`}
 									>
 										{`bal `}
 									</Text>
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
+										className={`${theme ? "text-neutral-200" : "text-neutral-800"}`}
 									>
 										{`- `}
 									</Text>
 
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
+										className={`${theme ? "text-neutral-200" : "text-neutral-800"}`}
 									>{`${item.hours} `}</Text>
 									<Text numberOfLines={1} className="text-neutral-300 text-xs">
 										{`hr `}
 									</Text>
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
+										className={`${theme ? "text-neutral-200" : "text-neutral-800"}`}
 									>{`${item.minutes} `}</Text>
 
 									<Text numberOfLines={1} className="text-neutral-300 text-xs">
@@ -90,7 +90,7 @@ const HistoryPreviewCard = ({
 
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-300" : "text-neutral-600"}`}
+										className={`${theme ? "text-neutral-300" : "text-neutral-800"} text-lg`}
 									>
 										{`= `}
 									</Text>
@@ -99,7 +99,7 @@ const HistoryPreviewCard = ({
 								<View className="flex flex-row w-18 justify-end">
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-600"} font-semibold text-right`}
+										className={`${theme ? "text-neutral-200" : "text-neutral-600"} font-semibold text-right text-lg`}
 									>{`${leaveBalanceComputation(item)[1]} `}</Text>
 								</View>
 							</View>

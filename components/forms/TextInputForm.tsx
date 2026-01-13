@@ -1,47 +1,103 @@
-import React from "react"
-import { StyleSheet, Text, TextInput, View } from "react-native"
+import React, { useEffect, useMemo, useState } from "react"
+import { Platform, Text, TextInput, View } from "react-native"
 
-const TextInputForm = ({
+export default function TextInputForm({
 	title,
 	value,
-	full,
 	selected,
 	onPressIn,
-
+	inputRef,
 	setValue,
-	theme
+	theme,
+	noDot
 }: {
 	title: string
 	value: string
-	full: boolean
 	selected: boolean
 	onPressIn: () => void
-
+	inputRef?: React.RefObject<TextInput | null>
 	setValue: (text: string) => void
 	theme: boolean
-}) => {
+	noDot: boolean
+}) {
+	const endSelection = useMemo(
+		() => ({ start: value.length, end: value.length }),
+		[value.length]
+	)
+	const [selection, setSelection] = useState(endSelection)
+
+	useEffect(() => {
+		// Keep caret at the end whenever value changes.
+		setSelection(endSelection)
+	}, [endSelection])
+
+	const moveCaretToEnd = () => {
+		setSelection(endSelection)
+
+		// On web, the underlying ref is a DOM input; update it explicitly.
+		if (Platform.OS !== "web") return
+		const current = inputRef?.current as unknown as
+			| HTMLInputElement
+			| undefined
+			| null
+		if (!current) return
+		if (typeof current.setSelectionRange !== "function") return
+
+		requestAnimationFrame(() => {
+			current.setSelectionRange(endSelection.end, endSelection.end)
+		})
+	}
+
+	function inputClass() {
+		if (selected && theme) {
+			return "border border-neutral-300 bg-neutral-900 text-brand-50"
+		} else if (selected) {
+			return "border border-neutral-300 bg-white"
+		} else if (theme) {
+			return "bg-neutral-800 text-neutral-100"
+		} else {
+			return "bg-neutral-100 text-neutral-900"
+		}
+	}
+
+	function cleanInput(text: string) {
+		const cleaned = noDot
+			? text.replace(/[^0-9]/g, "")
+			: text.replace(/[^0-9.]/g, "")
+		const parts = cleaned.split(".")
+		const numericText =
+			parts.length <= 2 ? cleaned : `${parts[0]}.${parts.slice(1).join("")}`
+
+		if (value === "0") {
+			setValue(numericText.replace(/^0+/, "") || "0")
+		} else {
+			setValue(numericText)
+		}
+	}
+
+	function onFocus() {
+		onPressIn()
+		moveCaretToEnd()
+	}
+
 	return (
-		<View className={`${full ? "grow overflow-x-hidden" : "flex-none"} `}>
+		<View className="flex flex-col flex-1 min-w-0">
 			<View className="px-2 pb-1 rounded-2xl flex justify-between flex-row">
 				<Text className={`${theme ? "text-neutral-50" : "text-neutral-600"}`}>
 					{title}
 				</Text>
 			</View>
 			<TextInput
+				ref={inputRef}
 				value={value}
-				onChangeText={setValue}
-				className={`${selected && theme ? "border border-neutral-300 bg-neutral-900 text-brand-50" : selected ? "border border-neutral-300 bg-white" : theme ? "bg-neutral-800 text-neutral-100" : "bg-neutral-100 text-neutral-900"} rounded-2xl h-16 text-right text-2xl font-semibold px-4`}
+				onFocus={onFocus}
+				onPressIn={moveCaretToEnd}
+				onChangeText={cleanInput}
+				className={`${inputClass()} rounded-2xl h-16 text-right text-2xl font-semibold px-4 flex-shrink min-w-0 w-full`}
 				showSoftInputOnFocus={false}
 				keyboardType="numeric"
-				selection={{ start: value.length, end: value.length }}
-				onSelectionChange={() => {
-					onPressIn()
-				}}
+				selection={selection}
 			/>
 		</View>
 	)
 }
-
-export default TextInputForm
-
-const styles = StyleSheet.create({})

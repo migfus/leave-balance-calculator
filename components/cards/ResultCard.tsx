@@ -19,7 +19,7 @@ const ResultCard = ({
 			<Text className={`${theme ? "text-neutral-50" : "text-neutral-600"}`}>
 				Result
 			</Text>
-			<View className="flex flex-row justify-end items-end">
+			<View className="flex flex-row justify-end items-end gap-2">
 				{leaveBalanceComputation(result)[0] ? (
 					<Text
 						numberOfLines={1}
@@ -31,18 +31,20 @@ const ResultCard = ({
 					<></>
 				)}
 
-				<Text
-					numberOfLines={1}
-					className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-4xl font-bold`}
-				>
-					{`${leaveBalanceComputation(result)[1]} `}
-				</Text>
-				<Text
-					numberOfLines={1}
-					className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-md`}
-				>
-					bal
-				</Text>
+				<View className="flex flex-row items-end">
+					<Text
+						numberOfLines={1}
+						className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-4xl font-bold`}
+					>
+						{`${leaveBalanceComputation(result)[1]} `}
+					</Text>
+					<Text
+						numberOfLines={1}
+						className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-md`}
+					>
+						new bal
+					</Text>
+				</View>
 			</View>
 		</View>
 	)
