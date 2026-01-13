@@ -60,7 +60,9 @@ export default function Index() {
 						setSelect("balance")
 						Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 					}}
-					setValue={(value: string) => setBalance(value)}
+					setValue={(value: string) => {
+						setBalance(value)
+					}}
 					theme={theme}
 					noDot={false}
 				/>

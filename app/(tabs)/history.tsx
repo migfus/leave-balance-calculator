@@ -108,7 +108,7 @@ const HistoryCard = ({
 	)
 }
 
-export default function Index() {
+export default function History() {
 	const history = useLeaveHistory((s) => s.history)
 	const hydrated = useLeaveHistory.persist.hasHydrated()
 	const resetHistory = useLeaveHistory((s) => s.reset)
@@ -125,6 +125,24 @@ export default function Index() {
 	}
 
 	function reset() {
+		console.log("resetting history")
+
+		// React Native Web: use browser confirm/alert
+		const isWeb =
+			typeof window !== "undefined" && typeof window.confirm === "function"
+
+		if (isWeb) {
+			const ok = window.confirm("Clear History\n\nDo you want to continue?")
+			if (!ok) return
+
+			resetHistory()
+			if (typeof window.alert === "function") {
+				window.alert("History Cleared")
+			}
+			return
+		}
+
+		// Native: use RN Alert + ToastAndroid
 		Alert.alert("Clear History", "Do you want to continue?", [
 			{ text: "Cancel", style: "cancel" },
 			{

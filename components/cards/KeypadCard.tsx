@@ -218,7 +218,7 @@ export default function KeypadCard({
 							else append(b)
 						}
 
-						const buttonClass = `${getButtonClass(b)} rounded-2xl justify-center items-center flex-1 h-[5rem] mx-1`
+						const buttonClass = `${getButtonClass(b)} rounded-2xl justify-center items-center flex-1 h-[4.5rem] mx-1`
 
 						return (
 							<TouchableOpacity

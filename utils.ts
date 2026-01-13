@@ -5,7 +5,7 @@ export function leaveBalanceComputation(data: {
 	balance: string
 	hours: string
 	minutes: string
-}): number[] {
+}): string[] {
 	// CONVERT 1/480
 	const computed_hours = leaveEquivalentFromCSV(Number(data.hours) * 60)
 	const computed_mins = leaveEquivalentFromCSV(Number(data.minutes))
@@ -17,12 +17,36 @@ export function leaveBalanceComputation(data: {
 		cost = Number(cost.toFixed(3))
 	}
 
-	if (Number.isInteger(final_balance)) {
+	if (Number.isInteger(Number(final_balance))) {
 		final_balance = Number(final_balance.toFixed(3))
 	}
 
-	return [cost, final_balance]
+	return [
+		formatBalance(cost.toString()),
+		formatBalance(final_balance.toString())
+	]
 	// return Number(data.balance) + Number(data.hours) + Number(data.minutes)
+}
+
+function formatBalance(balance: string): string {
+	if (!balance) {
+		return "0.000"
+	}
+
+	// Ensure 3 decimal places:
+	// 1 -> 1.000, 1.1 -> 1.100, 1.11 -> 1.110, 1.111 -> 1.111
+	const v = balance.startsWith(".") ? `0${balance}` : balance
+	const [intPart, fracPart] = v.split(".")
+
+	if (fracPart === undefined) {
+		return `${intPart}.000`
+	}
+
+	if (fracPart.length >= 3) {
+		return `${intPart}.${fracPart}`
+	}
+
+	return `${intPart}.${fracPart.padEnd(3, "0")}`
 }
 
 function roundUp(value: number, decimals = 3) {

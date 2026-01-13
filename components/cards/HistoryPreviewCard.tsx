@@ -99,7 +99,7 @@ const HistoryPreviewCard = ({
 								<View className="flex flex-row w-18 justify-end">
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-600"} font-semibold text-right text-lg`}
+										className={`${theme ? "text-neutral-200" : "text-neutral-800"} font-semibold text-right text-xl`}
 									>{`${leaveBalanceComputation(item)[1]} `}</Text>
 								</View>
 							</View>

@@ -9,7 +9,6 @@ interface LeaveHistoryState {
 	reset: () => void
 	onHistoryUpdate?: (callback: () => void) => void
 }
-
 export const useLeaveHistory = create<LeaveHistoryState>()(
 	persist(
 		(set) => ({
@@ -20,7 +19,13 @@ export const useLeaveHistory = create<LeaveHistoryState>()(
 					history: [...state.history, item]
 				})),
 
-			reset: () => set({ history: [] }),
+			reset: () =>
+				set(() => {
+					console.log("history removed")
+					return {
+						history: []
+					}
+				}),
 			onHistoryUpdate: undefined
 		}),
 		{
