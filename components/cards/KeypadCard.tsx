@@ -1,5 +1,7 @@
 import { LeaveBalanceHistory } from "@/globalInterface"
 import BackIcon from "@/icons/backIcon"
+import FreshIcon from "@/icons/freshIcon"
+import XIcon from "@/icons/xIcon"
 import * as Haptics from "expo-haptics"
 import React, { useCallback, useEffect } from "react"
 import { Platform, Text, TouchableOpacity, View } from "react-native"
@@ -228,7 +230,25 @@ export default function KeypadCard({
 								className={buttonClass}
 							>
 								{b === "Del" ? (
-									<BackIcon theme={theme} />
+									<BackIcon theme={theme} width={32} height={32} />
+								) : b === "Clear" ? (
+									<View className="flex flex-row gap-2 items-center">
+										<XIcon theme={theme} width={32} height={32} />
+										<Text
+											className={`${theme ? "text-neutral-50" : "text-neutral-900"} font-semibold text-2xl `}
+										>
+											Clear
+										</Text>
+									</View>
+								) : b === "Reset All" ? (
+									<View className="flex flex-row gap-2 items-center">
+										<FreshIcon theme={theme} width={32} height={32} />
+										<Text
+											className={`${theme ? "text-neutral-50" : "text-neutral-900"} font-semibold text-2xl `}
+										>
+											Reset All
+										</Text>
+									</View>
 								) : (
 									<Text
 										className={`${theme ? "text-neutral-50" : "text-neutral-900"} font-semibold text-2xl `}

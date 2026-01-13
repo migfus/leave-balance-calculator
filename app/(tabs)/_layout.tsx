@@ -42,7 +42,7 @@ const Layout = () => {
 					name="Home"
 					component={index}
 					options={{
-						tabBarIcon: () => <HomeIcon width={36} height={36} theme={theme} />
+						tabBarIcon: () => <HomeIcon width={32} height={32} theme={theme} />
 					}}
 				/>
 				<Tab.Screen
@@ -50,7 +50,7 @@ const Layout = () => {
 					component={history}
 					options={{
 						tabBarIcon: () => (
-							<HistoryIcon theme={theme} width={36} height={36} />
+							<HistoryIcon theme={theme} width={32} height={32} />
 						)
 					}}
 				/>
@@ -59,7 +59,7 @@ const Layout = () => {
 					component={settings}
 					options={{
 						tabBarIcon: () => (
-							<SettingsIcon theme={theme} width={36} height={36} />
+							<SettingsIcon theme={theme} width={32} height={32} />
 						)
 					}}
 				/>

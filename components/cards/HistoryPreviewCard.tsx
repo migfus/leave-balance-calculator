@@ -40,6 +40,7 @@ const HistoryPreviewCard = ({
 					{history.length}
 				</Text>
 			</View>
+
 			<View className="p-4 overflow-y-auto flex-1">
 				<FlatList
 					ref={flatListRef}
@@ -54,49 +55,68 @@ const HistoryPreviewCard = ({
 								{messengerStyleTime(item.timeStamps)}
 							</Text>
 							<View className="flex flex-row justify-end gap-4">
-								<View className="flex flex-row items-end">
-									<Text
-										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-800"}`}
-									>{`${item.balance} `}</Text>
-									<Text
-										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-xs`}
-									>
-										{`bal `}
-									</Text>
-									<Text
-										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-800"}`}
-									>
-										{`- `}
-									</Text>
+								<View className="flex flex-row items-end gap-1">
+									<View className="flex flex-row items-end gap-1">
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-lg font-semibold`}
+										>
+											{`${item.balance} `}
+										</Text>
 
-									<Text
-										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-800"}`}
-									>{`${item.hours} `}</Text>
-									<Text numberOfLines={1} className="text-neutral-300 text-xs">
-										{`hr `}
-									</Text>
-									<Text
-										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-800"}`}
-									>{`${item.minutes} `}</Text>
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "text-neutral-200" : "text-neutral-700"} text-md`}
+										>
+											{`old bal `}
+										</Text>
 
-									<Text numberOfLines={1} className="text-neutral-300 text-xs">
-										{`min `}
-									</Text>
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-lg font-semibold`}
+										>
+											{`- `}
+										</Text>
+									</View>
 
-									<Text
-										numberOfLines={1}
-										className={`${theme ? "text-neutral-300" : "text-neutral-800"} text-lg`}
-									>
-										{`= `}
-									</Text>
+									<View className="flex flex-row items-end gap-1 w-[7rem] justify-end">
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-lg font-semibold`}
+										>
+											{`${item.hours} `}
+										</Text>
+
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md `}
+										>
+											{`hr `}
+										</Text>
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-lg font-semibold`}
+										>
+											{`${item.minutes} `}
+										</Text>
+
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md`}
+										>
+											{`min `}
+										</Text>
+
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "text-neutral-300" : "text-neutral-800"} text-lg font-semibold`}
+										>
+											{`= `}
+										</Text>
+									</View>
 								</View>
 
-								<View className="flex flex-row w-18 justify-end">
+								<View className="flex flex-row w-16 justify-end">
 									<Text
 										numberOfLines={1}
 										className={`${theme ? "text-neutral-200" : "text-neutral-800"} font-semibold text-right text-xl`}
