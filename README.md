@@ -46,7 +46,6 @@ To learn more about developing your project with Expo, look at the following res
 
 Join our community of developers creating universal apps.
 
-
 ## Electron
 
 ### Windows 8 note
