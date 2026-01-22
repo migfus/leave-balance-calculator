@@ -4,7 +4,9 @@ interface ThemeStore {
 	list: {
 		name: string
 		link: string
-		type: "copy" | "link" | "callback"
+		type: "copy" | "link" | "callback" | "check"
+		active?: boolean
+		callback: () => void
 	}[]
 	changeList: (list: ThemeStore["list"]) => void
 }

@@ -1,8 +1,7 @@
-import { leaveBalanceComputation } from "@/utils"
-import { useBottomSheet } from "@gorhom/bottom-sheet"
-import React, { useEffect, useRef } from "react"
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import useBottomSheetStore from "@/store/bottomSheetStore"
+import { leaveBalanceComputation } from "@/utils"
+import React, { useEffect, useRef } from "react"
+import { Text, TouchableOpacity, View } from "react-native"
 
 interface ResultCardProps {
 	balance: string
@@ -36,7 +35,11 @@ const ResultCard = ({
 				onPress={() =>
 					$changeListStore([
 						{ name: new_balance[1], link: new_balance[1], type: "copy" },
-						{ name: new_balance[0], link: new_balance[0], type: "copy" }
+						{
+							name: `-${new_balance[0]}`,
+							link: `-${new_balance[0]}`,
+							type: "copy"
+						}
 					])
 				}
 				className=" rounded-2xl flex flex-col justify-between p-2 flex-none"

@@ -12,6 +12,9 @@ import {
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { useThemeStore } from "@/store/themeStore"
 import * as Clipboard from "expo-clipboard"
+import * as Haptics from "expo-haptics"
+import CheckIcon from "@/icons/checkIcon"
+import CircleIcon from "@/icons/circleIcon"
 
 interface Props {
 	children: React.ReactNode
@@ -24,6 +27,8 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 	const theme = useThemeStore((s) => s.theme)
 
 	const copyToClipboard = async (text: string) => {
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+
 		await Clipboard.setStringAsync(text)
 	}
 
@@ -39,7 +44,9 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 	useEffect(() => {
 		if ($list_store.length > 0) {
 			bottomSheetModalRef.current?.present()
+			Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 		} else {
+			bottomSheetModalRef.current?.dismiss()
 		}
 	}, [$list_store])
 
@@ -75,7 +82,7 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 						/>
 					)}
 				>
-					<BottomSheetView className="flex flex-col px-6 pb-10 divide-y gap-6 divide-gray-300">
+					<BottomSheetView className="flex flex-col px-6 pb-10 pt-6 divide-y gap-6 divide-gray-300">
 						{$list_store.map((item, index) =>
 							item.type === "copy" ? (
 								<TouchableOpacity
@@ -89,11 +96,30 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 
 									<CopyIcon size={28} color="#484848" />
 								</TouchableOpacity>
+							) : item.type === "check" ? (
+								<TouchableOpacity
+									key={index}
+									onPress={() => {
+										item.callback()
+										Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+									}}
+									className="flex flex-row justify-end gap-2 items-center"
+								>
+									<Text className="text-xl font-semibold text-neutral-600">
+										{item.name}
+									</Text>
+
+									{item.active ? (
+										<CheckIcon size={28} color="#295049" />
+									) : (
+										<CircleIcon size={28} color="#295049" />
+									)}
+								</TouchableOpacity>
 							) : (
 								<TouchableOpacity
 									key={index}
 									onPress={() => $changeListStore([])}
-									className="flex flex-row justify-end gap-2 items-center"
+									className="flex flex-row justify-end gap-2 items-center "
 								>
 									<Text className="text-xl font-semibold text-neutral-600">
 										{item.name}
@@ -108,6 +134,7 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 							onPress={() => {
 								$changeListStore([])
 								bottomSheetModalRef.current?.dismiss()
+								Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 							}}
 							className="flex flex-row justify-end gap-2 items-center mb-6"
 						>

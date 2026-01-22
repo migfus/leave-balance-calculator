@@ -4,6 +4,7 @@ import { leaveBalanceComputation, messengerStyleTime } from "@/utils"
 import React, { useEffect, useRef } from "react"
 import { FlatList, Text, TouchableOpacity, View } from "react-native"
 import { NavigationProp, useNavigation } from "@react-navigation/native"
+import * as Haptics from "expo-haptics"
 
 type RootStackParamList = {
 	History: undefined
@@ -29,7 +30,10 @@ const HistoryPreviewCard = ({
 	return (
 		<TouchableOpacity
 			className={`${theme ? "bg-neutral-900" : "bg-neutral-50"} rounded-3xl flex flex-1 p-1`}
-			onPress={() => navigation.navigate("History")}
+			onPress={() => {
+				navigation.navigate("History")
+				Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+			}}
 		>
 			<View className="p-4 rounded-2xl flex justify-between flex-row items-center ">
 				<View className="flex flex-row gap-2 items-center">

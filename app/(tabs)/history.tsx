@@ -14,6 +14,8 @@ import {
 import * as Haptics from "expo-haptics"
 
 import React, { useMemo, useState } from "react"
+import moment from "moment"
+import useBottomSheetStore from "@/store/bottomSheetStore"
 
 const HistoryCard = ({
 	history,
@@ -26,7 +28,30 @@ const HistoryCard = ({
 }) => {
 	const filters = ["All", "Today", "This Week", "This Month", "This Year"]
 	const [selected_filter, setSelectedFilter] = useState("All")
-	const newestFirstHistory = useMemo(() => [...history].reverse(), [history])
+	const newestFirstHistory = useMemo(() => {
+		const now = moment()
+		const filtered = history.filter((item) => {
+			const date = moment(item.timeStamps)
+			if (!date.isValid()) return false
+
+			switch (selected_filter) {
+				case "Today":
+					return now.isSame(date, "day")
+				case "This Week":
+					return now.isSame(date, "week")
+				case "This Month":
+					return now.isSame(date, "month")
+				case "This Year":
+					return now.isSame(date, "year")
+				case "All":
+				default:
+					return true
+			}
+		})
+
+		return [...filtered].reverse()
+	}, [history, selected_filter])
+	const $changeListStore = useBottomSheetStore((s) => s.changeList)
 
 	return (
 		<View className="flex flex-1 gap-2">
@@ -57,7 +82,7 @@ const HistoryCard = ({
 					data={filters}
 					keyExtractor={(item) => item}
 					scrollEnabled={true}
-					contentContainerStyle={{ gap: 8 }}
+					contentContainerStyle={{ gap: 8, paddingBottom: 0 }}
 					horizontal
 					renderItem={({ item }) =>
 						selected_filter === item ? (
@@ -74,6 +99,7 @@ const HistoryCard = ({
 							<TouchableOpacity
 								onPress={() => {
 									setSelectedFilter(item)
+									Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 								}}
 								className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} "flex flex-row justify-between py-2 px-4 rounded-full`}
 							>
@@ -86,8 +112,18 @@ const HistoryCard = ({
 						)
 					}
 				></FlatList>
+				{newestFirstHistory.length === 0 && (
+					<View className="flex flex-col items-center justify-center bg-neutral-100 rounded-full p-6 mt-8">
+						<Text
+							className={`${theme ? "text-neutral-500" : "text-neutral-600"} text-center `}
+						>
+							Empty
+						</Text>
+					</View>
+				)}
 			</View>
 
+			{/* SECTION: CONTENTS */}
 			<View className="mt-4 grow">
 				<FlatList
 					data={newestFirstHistory}
@@ -95,7 +131,23 @@ const HistoryCard = ({
 					scrollEnabled={true}
 					contentContainerStyle={{ gap: 8 }}
 					renderItem={({ item }) => (
-						<View
+						<TouchableOpacity
+							onPress={() =>
+								$changeListStore([
+									{
+										name: leaveBalanceComputation(item)[1],
+										link: leaveBalanceComputation(item)[1],
+										type: "copy",
+										callback: () => {}
+									},
+									{
+										name: `-${leaveBalanceComputation(item)[0]}`,
+										link: `-${leaveBalanceComputation(item)[0]}`,
+										type: "copy",
+										callback: () => {}
+									}
+								])
+							}
 							className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} "flex flex-row justify-between  p-4 rounded-3xl`}
 						>
 							<Text
@@ -175,7 +227,7 @@ const HistoryCard = ({
 									>{`${leaveBalanceComputation(item)[1]} `}</Text>
 								</View>
 							</View>
-						</View>
+						</TouchableOpacity>
 					)}
 				></FlatList>
 			</View>

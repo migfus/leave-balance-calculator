@@ -1,22 +1,90 @@
+import ChevronDownIcon from "@/icons/chevronDownIcon"
+import GithubIcon from "@/icons/githubIcon"
+import TrelloIcon from "@/icons/trelloIcon"
 import { useThemeStore } from "@/store/themeStore"
-import { Link } from "expo-router"
-import React from "react"
-import { Image, Switch, Text, TouchableOpacity, View } from "react-native"
-import Svg, { Path } from "react-native-svg"
+import React, { useState } from "react"
+import {
+	Image,
+	Switch,
+	Text,
+	TouchableOpacity,
+	View,
+	Linking,
+	TextInput,
+	Alert,
+	ActivityIndicator
+} from "react-native"
+import SendIcon from "@/icons/sendIcon"
+import useBottomSheetStore from "@/store/bottomSheetStore"
+import useComputationMethodStore from "@/store/computationMethodStore"
 
 const Settings = () => {
 	const theme = useThemeStore((s) => s.theme)
 	const theme_hydrated = useThemeStore.persist.hasHydrated()
 	const toggleTheme = useThemeStore((s) => s.toggleTheme)
+	const $changeList = useBottomSheetStore((s) => s.changeList)
+	const $computation_method = useComputationMethodStore((s) => s.method)
+	const $changeComputationMethod = useComputationMethodStore(
+		(s) => s.changeMethod
+	)
+	const $computation_method_hydrated =
+		useComputationMethodStore.persist.hasHydrated()
 
-	if (!theme_hydrated) {
+	const [message, setMessage] = useState("")
+	const [sent_message, setSentMessage] = useState(false)
+	const [loading_message, setLoadingMessage] = useState(false)
+
+	if (!theme_hydrated && !$computation_method_hydrated) {
 		return
+	}
+
+	async function sendSuggestion() {
+		setLoadingMessage(true)
+
+		try {
+			if (message !== "") {
+				const res = await fetch("https://www.cmuohrm.site/api/feedback", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						from: "Leave Credid Balance Calculator",
+						type: "Android",
+						message: message
+					})
+				})
+
+				if (!res.ok) {
+					throw new Error(`Request failed with status ${res.status}`)
+				}
+
+				const contentType = res.headers.get("content-type") ?? ""
+				if (contentType.includes("application/json")) {
+					const post_data = await res.json()
+					console.log("post_data", post_data)
+				} else {
+					const post_text = await res.text()
+					console.log("post_text", post_text)
+				}
+
+				setMessage("")
+				setSentMessage(true)
+			}
+		} catch (error) {
+			console.log("post_error", error)
+			Alert.alert(
+				"Unable to send",
+				"We couldn't send your message right now. Please try again."
+			)
+		}
+		setLoadingMessage(false)
 	}
 
 	return (
 		<View className={theme ? "bg-neutral-950" : "bg-neutral-200"}>
 			<View
-				className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} p-4  m-4 rounded-2xl flex flex-col justify-start gap-4`}
+				className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} p-6  m-4 rounded-3xl flex flex-col justify-start gap-4`}
 			>
 				<View className={`flex flex-row justify-start gap-4`}>
 					<Image
@@ -30,62 +98,157 @@ const Settings = () => {
 						>
 							Leave Credit Balance Calculator
 						</Text>
-						<Text className={`${theme ? "text-brand-50" : "text-brand-900"} `}>
+						<Text
+							className={`${theme ? "text-brand-50" : "text-neutral-500"} `}
+						>
 							v1.1.0
 						</Text>
 					</View>
 				</View>
 
-				<View className={`flex flex-row justify-start gap-4`}>
-					{theme ? (
-						<Svg width={32} height={32} viewBox="0 0 24 24" color="#fff">
-							<Path
-								color="#fff"
-								fill="#fff"
-								d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
-							></Path>
-						</Svg>
-					) : (
-						<Svg width={32} height={32} viewBox="0 0 24 24" color="#000">
-							<Path
-								color="#000"
-								fill="#000"
-								d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
-							></Path>
-						</Svg>
-					)}
+				<View>
+					<Text className="text-neutral-500">- Revamp UI</Text>
+					<Text className="text-neutral-500">- Optimizations</Text>
+				</View>
 
-					<View className="grow flex flex-row items-center">
-						<Link
-							href="https://github.com/migfus/leave-balance-calculator"
-							className={`${theme ? "text-brand-50" : "text-brand-900"} `}
-						>
-							https://github.com/migfus/leave-balance-calculator
-						</Link>
-					</View>
+				<View className="flex flex-row gap-4">
+					<TouchableOpacity
+						onPress={() =>
+							Linking.openURL("https://trello.com/b/URHhZk2p/lcbc-app")
+						}
+						className="flex flex-row gap-2 bg-neutral-200 p-2 rounded-full px-4 "
+					>
+						<TrelloIcon color="#393939" />
+						<Text className="font-semibold text-neutral-700">App Updates</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						className="flex flex-row gap-2 bg-neutral-200 p-2 rounded-full px-4 "
+						onPress={() =>
+							Linking.openURL(
+								"https://github.com/migfus/leave-balance-calculator"
+							)
+						}
+					>
+						<GithubIcon color="#393939" />
+						<Text className="font-semibold text-neutral-700">Open Source</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 
-			<TouchableOpacity
-				className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} m-4 rounded-2xl p-4 `}
-				onPress={toggleTheme}
-			>
-				<View className="flex flex-row justify-between items-center">
-					<Text
-						className={`${theme ? "text-neutral-50" : "text-neutral-600"} font-semibold`}
-					>
-						Dark Mode
-					</Text>
+			<View className="mx-4 flex flex-col gap-2">
+				<TouchableOpacity
+					className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} rounded-3xl p-6 `}
+					onPress={toggleTheme}
+				>
+					<View className="flex flex-row justify-between items-center">
+						<Text
+							className={`${theme ? "text-neutral-50" : "text-neutral-600"} font-semibold`}
+						>
+							Dark Mode
+						</Text>
 
-					<Switch
-						value={theme}
-						onValueChange={() => toggleTheme()}
-						trackColor={{ false: "#ccc", true: "#4ade80" }}
-						thumbColor={theme ? "#22c55e" : "#f4f4f5"}
-						style={{ height: 32, width: 32 }}
-					/>
+						<Switch
+							value={theme}
+							onValueChange={() => toggleTheme()}
+							trackColor={{ false: "#ccc", true: "#4ade80" }}
+							thumbColor={theme ? "#22c55e" : "#f4f4f5"}
+							style={{ height: 32, width: 32 }}
+						/>
+					</View>
+				</TouchableOpacity>
+
+				<TouchableOpacity
+					onPress={() =>
+						$changeList([
+							{
+								name: "Civil Service Method",
+								link: "",
+								type: "check",
+								active: $computation_method === "Civil Service Method",
+								callback: () => {
+									$changeComputationMethod("Civil Service Method")
+									$changeList([])
+								}
+							},
+							{
+								name: "Fixed Leave Credit Method",
+								link: "",
+								type: "check",
+								active: $computation_method === "Fixed Leave Credit Method",
+								callback: () => {
+									$changeComputationMethod("Fixed Leave Credit Method")
+									$changeList([])
+								}
+							}
+						])
+					}
+					className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} rounded-3xl p-6 `}
+				>
+					<View className="flex flex-row justify-between items-center">
+						<Text
+							className={`${theme ? "text-neutral-50" : "text-neutral-600"} font-semibold`}
+						>
+							Computation Mode
+						</Text>
+
+						<View className="flex flex-row gap-2">
+							<Text className="text-neutral-500">{$computation_method}</Text>
+							<ChevronDownIcon color="#393939"></ChevronDownIcon>
+						</View>
+					</View>
+				</TouchableOpacity>
+
+				<View
+					className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} rounded-3xl p-6 `}
+				>
+					{sent_message ? (
+						<View>
+							<Text className="text-neutral-500">
+								Thank you for your suggestion! 💝
+							</Text>
+						</View>
+					) : (
+						<View className="flex flex-col justify-between gap-2">
+							<Text
+								className={`${theme ? "text-neutral-50" : "text-neutral-600"} font-semibold`}
+							>
+								Suggest to Us
+							</Text>
+
+							<View className="bg-neutral-200 rounded-3xl p-4">
+								<TextInput
+									className=""
+									multiline
+									numberOfLines={4}
+									value={message}
+									placeholder="Message"
+									onChangeText={setMessage}
+								/>
+							</View>
+
+							<View className="flex flex-row justify-end">
+								{loading_message ? (
+									<ActivityIndicator
+										size="small"
+										color="#484848"
+										className="bg-neutral-300 py-3 px-6 rounded-3xl"
+									/>
+								) : (
+									<TouchableOpacity
+										onPress={() => sendSuggestion()}
+										className={`${
+											message !== "" ? "bg-neutral-300" : "bg-neutral-100"
+										} rounded-3xl p-4 items-end flex flex-row gap-2 `}
+									>
+										<Text className="font-semibold text-neutral-600">Send</Text>
+										<SendIcon color="#484848" size={20} />
+									</TouchableOpacity>
+								)}
+							</View>
+						</View>
+					)}
 				</View>
-			</TouchableOpacity>
+			</View>
 
 			<View className="p-4 bg-neutral-9050 m-4 rounded-2xl h-full"></View>
 		</View>
