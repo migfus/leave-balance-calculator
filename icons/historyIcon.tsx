@@ -1,23 +1,19 @@
 import { IconProps } from "@/globalInterface"
 import Svg, { Path } from "react-native-svg"
+import { useThemeStore } from "@/store/themeStore"
 
 export default function HistoryIcon({
-	width = 24,
-	height = 24,
-	theme = false
+	size = 24,
+
+	color = "#222"
 }: IconProps) {
-	return theme ? (
-		<Svg width={width} height={height} viewBox="0 0 24 24">
+	const theme = useThemeStore((s) => s.theme)
+
+	return (
+		<Svg width={size} height={size} viewBox="0 0 24 24">
 			<Path
-				fill="#c6c6bb"
-				d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2M12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8s8 3.58 8 8s-3.58 8-8 8m.5-13H11v6l5.25 3.15l.75-1.23l-4.5-2.67z"
-			></Path>
-		</Svg>
-	) : (
-		<Svg width={width} height={height} viewBox="0 0 24 24">
-			<Path
-				fill="#303030"
-				d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2m3.3 14.71L11 12.41V7h2v4.59l3.71 3.71z"
+				fill={theme ? "#fff" : "#000"}
+				d="M12 21q-3.45 0-6.012-2.287T3.05 13H5.1q.35 2.6 2.313 4.3T12 19q2.925 0 4.963-2.037T19 12t-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H9v2H3V4h2v2.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.713t2.85 1.924t1.925 2.85T21 12t-.712 3.513t-1.925 2.85t-2.85 1.925T12 21m2.8-4.8L11 12.4V7h2v4.6l3.2 3.2z"
 			></Path>
 		</Svg>
 	)

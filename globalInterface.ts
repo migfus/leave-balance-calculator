@@ -1,7 +1,6 @@
 export interface IconProps {
-	width?: number
-	height?: number
-	theme: boolean
+	size?: number
+	color?: string
 }
 
 export interface TabIconProps {
@@ -14,4 +13,9 @@ export interface LeaveBalanceHistory {
 	minutes: string
 	balance: string
 	timeStamps: string
+}
+
+export interface IndexModal {
+	cost: string
+	result: string
 }

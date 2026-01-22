@@ -21,7 +21,7 @@ const Settings = () => {
 				<View className={`flex flex-row justify-start gap-4`}>
 					<Image
 						style={{ width: 50, height: 50, borderRadius: 10 }}
-						source={require("@/assets/images/icon.png")}
+						source={require("@/assets/images/android/play_store_512.png")}
 					></Image>
 
 					<View className="grow ">
@@ -31,7 +31,7 @@ const Settings = () => {
 							Leave Credit Balance Calculator
 						</Text>
 						<Text className={`${theme ? "text-brand-50" : "text-brand-900"} `}>
-							v1.0.1
+							v1.1.0
 						</Text>
 					</View>
 				</View>

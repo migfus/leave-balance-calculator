@@ -1,6 +1,6 @@
 {
-	"name": "leave-balance-calculator",
-	"version": "1.0.1",
+	"name": "leave-credit-balance-calculator",
+	"version": "1.1.0",
 	"description": "",
 	"type": "module",
 	"main": "main.js",
@@ -11,9 +11,9 @@
 		"build:win": "electron-builder --win"
 	},
 	"build": {
-		"appId": "com.leavebalancecalculator.app",
-		"productName": "Leave Balance Calculator",
-		"icon": "../assets/images/icon.png",
+		"appId": "com.leavecreditbalancecalculator.app",
+		"productName": "Leave Credit Balance Calculator",
+		"icon": "../assets/images/android/play_store_512.png",
 		"directories": {
 			"output": "release"
 		},
@@ -23,7 +23,7 @@
 			"package.json"
 		],
 		"win": {
-			"icon": "../assets/images/icon.png",
+			"icon": "../assets/images/android/play_store_512.png",
 			"target": [
 				"nsis"
 			]

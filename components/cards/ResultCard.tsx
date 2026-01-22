@@ -1,84 +1,107 @@
 import { leaveBalanceComputation } from "@/utils"
 import React, { useEffect, useRef } from "react"
-import { Text, View } from "react-native"
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
+
+interface ResultCardProps {
+	balance: string
+	hours: string
+	minutes: string
+	theme?: boolean
+	onPress?: () => void
+}
 
 const ResultCard = ({
 	balance,
 	hours,
 	minutes,
-	theme = false
-}: {
-	balance: string
-	hours: string
-	minutes: string
-	theme?: boolean
-}) => {
+	theme = false,
+	onPress
+}: ResultCardProps) => {
 	const result = { balance, hours, minutes }
 	const new_balance = leaveBalanceComputation(result)
 	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
 	useEffect(() => {
+		const timeoutId = timerRef.current
+
 		return () => {
-			if (timerRef.current) clearTimeout(timerRef.current)
+			if (timeoutId) clearTimeout(timeoutId)
 		}
 	}, [])
 
 	return (
-		<View className=" rounded-2xl flex flex-col justify-between p-2 flex-none">
-			<View className="flex flex-col justify-end gap-2">
-				<View className="flex flex-row justify-end ">
-					<View className="flex flex-row items-end gap-1 bg-brand-50 rounded-full px-6 py-2">
-						<View className="flex flex-row items-end">
+		<>
+			<TouchableOpacity
+				onPress={onPress}
+				className=" rounded-2xl flex flex-col justify-between p-2 flex-none"
+			>
+				<View className="flex flex-col justify-end gap-2">
+					<View className="flex flex-row justify-end ">
+						<View className="flex flex-row items-end gap-1 bg-brand-50 rounded-full px-6 py-2">
+							<View className="flex flex-row items-end">
+								<Text
+									numberOfLines={1}
+									className={`${theme ? "text-neutral-50" : "text-brand-700"} text-right text-4xl font-bold`}
+								>
+									{`${new_balance[1].split(".")[0]}.`}
+								</Text>
+								<Text
+									numberOfLines={1}
+									className={`${theme ? "text-neutral-50" : "text-brand-700"} text-right text-3xl font-bold`}
+								>
+									{`${new_balance[1].split(".")[1]}`}
+								</Text>
+							</View>
+
 							<Text
 								numberOfLines={1}
-								className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-4xl font-bold`}
+								className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-md text-sm font-semibold`}
 							>
-								{`${new_balance[1].split(".")[0]}.`}
-							</Text>
-							<Text
-								numberOfLines={1}
-								className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-3xl font-bold`}
-							>
-								{`${new_balance[1].split(".")[1]}`}
+								new bal
 							</Text>
 						</View>
-
-						<Text
-							numberOfLines={1}
-							className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-md text-sm font-semibold`}
-						>
-							new bal
-						</Text>
 					</View>
-				</View>
 
-				<View className="flex flex-row justify-end">
-					<View className="flex flex-row items-end gap-1 bg-red-50 rounded-full px-5 py-1">
-						<View className="flex flex-row items-end">
+					<View className="flex flex-row justify-end">
+						<View className="flex flex-row items-end gap-1 bg-red-50 rounded-full px-5 py-1">
+							<View className="flex flex-row items-end">
+								<Text
+									numberOfLines={1}
+									className="text-right text-red-700 font-bold text-2xl"
+								>
+									{`${new_balance[0] === "0.000" ? "0" : "-" + new_balance[0].split(".")[0]}.`}
+								</Text>
+								<Text
+									numberOfLines={1}
+									className="text-right text-red-700 font-bold text-xl"
+								>
+									{`${new_balance[0].split(".")[1] === "0" ? "0" : new_balance[0].split(".")[1]}`}
+								</Text>
+							</View>
+
 							<Text
 								numberOfLines={1}
-								className="text-right text-red-700 font-bold text-2xl"
+								className={`text-red-700 text-right text-sm font-semibold`}
 							>
-								{`${new_balance[0] === "0.000" ? "0" : "-" + new_balance[0].split(".")[0]}.`}
-							</Text>
-							<Text
-								numberOfLines={1}
-								className="text-right text-red-700 font-bold text-xl"
-							>
-								{`${new_balance[0].split(".")[1] === "0" ? "0" : new_balance[0].split(".")[1]}`}
+								cost
 							</Text>
 						</View>
-
-						<Text
-							numberOfLines={1}
-							className={`text-red-700 text-right text-sm font-semibold`}
-						>
-							cost
-						</Text>
 					</View>
 				</View>
-			</View>
-		</View>
+			</TouchableOpacity>
+		</>
 	)
 }
 export default ResultCard
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: "grey"
+	},
+	contentContainer: {
+		flex: 1,
+		padding: 36,
+		alignItems: "center"
+	}
+})

@@ -22,11 +22,11 @@ const HistoryPreviewCard = ({
 
 	return (
 		<View
-			className={`${theme ? "bg-neutral-900" : "bg-neutral-50"} rounded-3xl flex flex-1`}
+			className={`${theme ? "bg-neutral-900" : "bg-neutral-50"} rounded-3xl flex flex-1 p-1`}
 		>
-			<View className="px-4 pt-4 rounded-2xl flex justify-between flex-row">
+			<View className="p-4 rounded-2xl flex justify-between flex-row items-center ">
 				<View className="flex flex-row gap-2 items-center">
-					<HistoryIcon theme={theme} width={16} height={16} />
+					<HistoryIcon size={18} />
 					<Text
 						className={`${theme ? "text-neutral-200" : "text-neutral-600"}`}
 					>
@@ -47,6 +47,7 @@ const HistoryPreviewCard = ({
 					data={history}
 					keyExtractor={(item) => item.timeStamps}
 					scrollEnabled={true}
+					contentContainerStyle={{ gap: 8 }}
 					renderItem={({ item }) => (
 						<View className="flex flex-row justify-between items-center">
 							<Text

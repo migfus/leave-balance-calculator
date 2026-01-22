@@ -230,10 +230,10 @@ export default function KeypadCard({
 								className={buttonClass}
 							>
 								{b === "Del" ? (
-									<BackIcon theme={theme} width={26} height={26} />
+									<BackIcon size={26} />
 								) : b === "Clear" ? (
 									<View className="flex flex-row gap-2 items-center">
-										<XIcon theme={theme} width={26} height={26} />
+										<XIcon size={26} />
 										<Text
 											className={`${theme ? "text-neutral-50" : "text-neutral-900"} font-semibold text-xl `}
 										>
@@ -242,7 +242,7 @@ export default function KeypadCard({
 									</View>
 								) : b === "Reset" ? (
 									<View className="flex flex-row gap-2 items-center">
-										<FreshIcon theme={theme} width={26} height={26} />
+										<FreshIcon size={26} />
 										<Text
 											className={`${theme ? "text-neutral-50" : "text-neutral-900"} font-semibold text-xl `}
 										>

@@ -20,7 +20,7 @@ protocol.registerSchemesAsPrivileged([
 // Ensure Electron can always write its caches/user data.
 app.setPath(
 	"userData",
-	path.join(app.getPath("appData"), "leave-balance-calculator-electron")
+	path.join(app.getPath("appData"), "leave-credit-balance-calculator")
 )
 
 app.commandLine.appendSwitch(
@@ -41,7 +41,7 @@ function createWindow() {
 		width: 450,
 		height: 850,
 		autoHideMenuBar: true,
-		icon: path.join(__dirname, "..", "assets", "images", "icon.png"),
+		icon: path.join(__dirname, "..", "assets", "images", "web", "icon-512.png"),
 		webPreferences: {
 			contextIsolation: true
 		}
