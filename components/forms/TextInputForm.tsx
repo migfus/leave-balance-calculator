@@ -83,7 +83,9 @@ export default function TextInputForm({
 	return (
 		<View className="flex flex-col flex-1 min-w-0">
 			<View className="px-2 pb-1 rounded-2xl flex justify-between flex-row">
-				<Text className={`${theme ? "text-neutral-50" : "text-neutral-600"}`}>
+				<Text
+					className={`${theme ? "text-neutral-50" : "text-neutral-600"} text-sm font-semibold`}
+				>
 					{title}
 				</Text>
 			</View>
@@ -93,7 +95,7 @@ export default function TextInputForm({
 				onFocus={onFocus}
 				onPressIn={moveCaretToEnd}
 				onChangeText={cleanInput}
-				className={`${inputClass()} rounded-2xl h-16 text-right text-2xl font-semibold px-4 flex-shrink min-w-0 w-full`}
+				className={`${inputClass()} rounded-full h-14 text-right text-2xl font-semibold px-5 flex-shrink min-w-0 w-full`}
 				showSoftInputOnFocus={false}
 				keyboardType="numeric"
 				selection={selection}

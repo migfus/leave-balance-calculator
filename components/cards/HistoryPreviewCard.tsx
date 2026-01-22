@@ -22,7 +22,7 @@ const HistoryPreviewCard = ({
 
 	return (
 		<View
-			className={`${theme ? "bg-neutral-900" : "bg-neutral-50"} rounded-2xl flex flex-1`}
+			className={`${theme ? "bg-neutral-900" : "bg-neutral-50"} rounded-3xl flex flex-1`}
 		>
 			<View className="px-4 pt-4 rounded-2xl flex justify-between flex-row">
 				<View className="flex flex-row gap-2 items-center">
@@ -35,7 +35,7 @@ const HistoryPreviewCard = ({
 				</View>
 
 				<Text
-					className={`${theme ? "text-neutral-200" : "text-neutral-600"} text-sm`}
+					className={`${theme ? "text-neutral-200" : "text-neutral-600"} bg-neutral-200 px-2 rounded-full py-1 text-xs`}
 				>
 					{history.length}
 				</Text>
@@ -48,70 +48,61 @@ const HistoryPreviewCard = ({
 					keyExtractor={(item) => item.timeStamps}
 					scrollEnabled={true}
 					renderItem={({ item }) => (
-						<View className="flex flex-row justify-between">
+						<View className="flex flex-row justify-between items-center">
 							<Text
 								className={`${theme ? "text-neutral-500" : "text-neutral-600"} text-xs`}
 							>
 								{messengerStyleTime(item.timeStamps)}
 							</Text>
-							<View className="flex flex-row justify-end gap-4">
+							<View className="flex flex-row justify-end gap-4 items-center">
 								<View className="flex flex-row items-end gap-1">
-									<View className="flex flex-row items-end gap-1">
+									<View className="flex flex-row items-end gap-1 min-w-[8rem] justify-end">
 										<Text
 											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-lg font-semibold`}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md font-semibold`}
 										>
 											{`${item.balance} `}
 										</Text>
 
 										<Text
 											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-700"} text-md`}
+											className={`${theme ? "text-neutral-200" : "text-neutral-700"} text-xs`}
 										>
 											{`old bal `}
 										</Text>
 
 										<Text
 											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-lg font-semibold`}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md font-semibold`}
 										>
 											{`- `}
 										</Text>
-									</View>
 
-									<View className="flex flex-row items-end gap-1 min-w-[8rem] justify-end">
 										<Text
 											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-lg font-semibold`}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md font-semibold`}
 										>
-											{`${item.hours} `}
+											{`${item.hours}`}
 										</Text>
 
 										<Text
 											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md `}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-xs `}
 										>
 											{`hr `}
 										</Text>
 										<Text
 											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-lg font-semibold`}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md font-semibold`}
 										>
-											{`${item.minutes} `}
+											{`${item.minutes}`}
 										</Text>
 
 										<Text
 											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md`}
+											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-xs`}
 										>
 											{`min `}
-										</Text>
-
-										<Text
-											numberOfLines={1}
-											className={`${theme ? "text-neutral-300" : "text-neutral-800"} text-lg font-semibold`}
-										>
-											{`= `}
 										</Text>
 									</View>
 								</View>
@@ -119,7 +110,7 @@ const HistoryPreviewCard = ({
 								<View className="flex flex-row min-w-[6rem] justify-end">
 									<Text
 										numberOfLines={1}
-										className={`${theme ? "text-neutral-200" : "text-neutral-800"} font-semibold text-right text-xl`}
+										className={`${theme ? "text-neutral-200" : "text-brand-800"} font-semibold text-right text-xl bg-brand-100 px-2 py-1 rounded-full`}
 									>{`${leaveBalanceComputation(item)[1]} `}</Text>
 								</View>
 							</View>

@@ -116,7 +116,7 @@ export default function KeypadCard({
 		if (select === "balance") {
 			setBalance((Number(balance) * -1).toString())
 		}
-	}, [select, setBalance])
+	}, [select, balance, setBalance])
 
 	const del = useCallback(() => {
 		switch (select) {
@@ -210,7 +210,7 @@ export default function KeypadCard({
 	return (
 		<View className="flex-none">
 			{rows.map((row, ri) => (
-				<View key={ri} className="flex-row justify-between mb-3">
+				<View key={ri} className="flex-row justify-between mb-2 gap-2">
 					{row.map((b, bi) => {
 						const onPress = () => {
 							if (b === "Reset") reset()
@@ -220,7 +220,7 @@ export default function KeypadCard({
 							else append(b)
 						}
 
-						const buttonClass = `${getButtonClass(b)} rounded-2xl justify-center items-center flex-1 h-[4.5rem] mx-1`
+						const buttonClass = `${getButtonClass(b)} rounded-2xl justify-center items-center flex-1 h-[4rem] `
 
 						return (
 							<TouchableOpacity

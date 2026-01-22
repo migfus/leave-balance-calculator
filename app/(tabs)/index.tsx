@@ -52,7 +52,7 @@ export default function Index() {
 			{/* SECTION: INPUT FORM */}
 			<View className="flex flex-row gap-4">
 				<TextInputForm
-					title="Prev Balance"
+					title="Current Balance"
 					value={balance}
 					selected={select === "balance"}
 					inputRef={balanceInputRef}
@@ -68,7 +68,20 @@ export default function Index() {
 				/>
 			</View>
 
-			<View className="flex flex-row gap-4">
+			<View className="flex flex-row gap-2">
+				{/* <TextInputForm
+					title="Days"
+					value={hours}
+					selected={select === "hours"}
+					inputRef={hoursInputRef}
+					onPressIn={() => {
+						setSelect("hours")
+						Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+					}}
+					setValue={(value: string) => setHours(value)}
+					theme={theme}
+					noDot={true}
+				/> */}
 				<TextInputForm
 					title="Hours"
 					value={hours}
