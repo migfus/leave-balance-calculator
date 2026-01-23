@@ -50,7 +50,7 @@ export default function TextInputForm({
 
 	function inputClass() {
 		if (selected && theme) {
-			return "border border-neutral-300 bg-neutral-900 text-brand-50"
+			return "border border-neutral-700 bg-neutral-900 text-brand-50"
 		} else if (selected) {
 			return "border border-neutral-300 bg-white"
 		} else if (theme) {

@@ -5,10 +5,18 @@ export function leaveBalanceComputation(data: {
 	balance: string
 	hours: string
 	minutes: string
+	method: "CSC Leave Credits Rule" | "Fixed Leave Credits Rule"
 }): string[] {
 	// CONVERT 1/480
-	const computed_hours = leaveEquivalentFromCSV(Number(data.hours) * 60)
-	const computed_mins = leaveEquivalentFromCSV(Number(data.minutes))
+	let computed_hours = 0
+	let computed_mins = 0
+	if (data.method === "CSC Leave Credits Rule") {
+		computed_hours = leaveConvertionFromCSC(Number(data.hours) * 60)
+		computed_mins = leaveConvertionFromCSC(Number(data.minutes))
+	} else {
+		computed_hours = leaveConvertionFromFixed(Number(data.hours) * 60)
+		computed_mins = leaveConvertionFromFixed(Number(data.minutes))
+	}
 
 	let cost = computed_hours + computed_mins
 	let final_balance = roundUp(Number(data.balance) - cost)
@@ -25,6 +33,7 @@ export function leaveBalanceComputation(data: {
 		formatBalance(cost.toString()),
 		formatBalance(final_balance.toString())
 	]
+
 	// return Number(data.balance) + Number(data.hours) + Number(data.minutes)
 }
 
@@ -54,7 +63,7 @@ function roundUp(value: number, decimals = 3) {
 	return Math.ceil(value * factor) / factor
 }
 
-function leaveEquivalentFromCSV(minutes: number) {
+function leaveConvertionFromCSC(minutes: number) {
 	// Step 1: convert input safely
 	if (typeof minutes !== "number" || isNaN(minutes)) {
 		return 0
@@ -80,6 +89,28 @@ function leaveEquivalentFromCSV(minutes: number) {
 		// exactly .5 → round to EVEN
 		rounded = floor % 2 === 0 ? floor : floor + 1
 	}
+
+	// Step 5: scale back
+	return rounded / 1000
+}
+
+function leaveConvertionFromFixed(minutes: number) {
+	// Step 1: convert input safely
+	if (typeof minutes !== "number" || isNaN(minutes)) {
+		return 0
+	}
+
+	// Step 2: base calculation
+	const raw = minutes / 480
+
+	// Step 3: scale for 3 decimal rounding
+	const scaled = raw * 1000
+
+	// Step 4: round up only when reaching 0.5
+	const floor = Math.floor(scaled)
+	const diff = scaled - floor
+
+	const rounded = diff >= 0.5 ? floor + 1 : floor
 
 	// Step 5: scale back
 	return rounded / 1000

@@ -28,12 +28,12 @@ const Layout = () => {
 	return (
 		<BottomSheetModalComponent>
 			<SafeAreaView
-				className={`${theme ? "bg-neutral-900" : "bg-neutral-200"} h-full`}
+				className={`${theme ? "bg-neutral-950" : "bg-neutral-200"} h-full`}
 			>
 				<Tab.Navigator
 					screenOptions={{
 						tabBarIndicatorStyle: {
-							backgroundColor: theme ? "#262626" : "#d8efe8",
+							backgroundColor: theme ? "#223935" : "#d8efe8",
 							height: "100%",
 							borderRadius: 999
 						},
@@ -41,8 +41,8 @@ const Layout = () => {
 							padding: 0
 						},
 
-						tabBarActiveTintColor: theme ? "#fafafa" : "#f3faf7",
-						tabBarInactiveTintColor: theme ? "#a3a3a3" : "#737373",
+						tabBarActiveTintColor: theme ? "#b4c5c0" : "#295049",
+						tabBarInactiveTintColor: theme ? "#cacaca" : "#393939",
 						tabBarStyle: {
 							marginTop: 8,
 							marginHorizontal: 12,
@@ -78,9 +78,9 @@ const Layout = () => {
 						name="Home"
 						component={index}
 						options={{
-							tabBarIcon: () => (
+							tabBarIcon: ({ color }) => (
 								<View style={{ height: "100%", justifyContent: "center" }}>
-									<HomeIcon size={30} color="#333" />
+									<HomeIcon size={30} color={color} />
 								</View>
 							),
 							tabBarItemStyle: {
@@ -97,9 +97,9 @@ const Layout = () => {
 						name="History"
 						component={history}
 						options={{
-							tabBarIcon: () => (
+							tabBarIcon: ({ color }) => (
 								<View style={{ height: "100%", justifyContent: "center" }}>
-									<HistoryIcon color="#333" size={28} />
+									<HistoryIcon color={color} size={28} />
 								</View>
 							),
 							tabBarItemStyle: {
@@ -117,9 +117,9 @@ const Layout = () => {
 						name="Information"
 						component={Information}
 						options={{
-							tabBarIcon: () => (
+							tabBarIcon: ({ color }) => (
 								<View style={{ height: "100%", justifyContent: "center" }}>
-									<InformationIcon size={30} color="#333" />
+									<InformationIcon size={30} color={color} />
 								</View>
 							),
 							tabBarItemStyle: {
@@ -137,9 +137,9 @@ const Layout = () => {
 						name="Settings"
 						component={settings}
 						options={{
-							tabBarIcon: () => (
+							tabBarIcon: ({ color }) => (
 								<View style={{ height: "100%", justifyContent: "center" }}>
-									<SettingsIcon color="#333" size={28} />
+									<SettingsIcon color={color} size={28} />
 								</View>
 							),
 							tabBarItemStyle: {

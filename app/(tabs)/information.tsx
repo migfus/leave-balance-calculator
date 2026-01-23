@@ -1,93 +1,470 @@
+import CollapseCard from "@/components/cards/CollapseCard"
 import { useThemeStore } from "@/store/themeStore"
-import { Link } from "expo-router"
 import React from "react"
-import { Image, Switch, Text, TouchableOpacity, View } from "react-native"
-import Svg, { Path } from "react-native-svg"
+import { Text, View, ScrollView } from "react-native"
 
 const Information = () => {
 	const theme = useThemeStore((s) => s.theme)
 	const theme_hydrated = useThemeStore.persist.hasHydrated()
-	const toggleTheme = useThemeStore((s) => s.toggleTheme)
 
 	if (!theme_hydrated) {
 		return
 	}
 
+	const informations = [
+		{
+			title: "CSC Leave Credits Rule",
+			sub_title: "Basd on Civil Service Commission computation",
+			more_info: {
+				title: "Conversion of Working Hours/Minutess into Fraction of a Day",
+				sub_title: "Based on 8 Hours Workday",
+				links: [
+					{
+						name: "Omnibus Rule On Leave.pdf",
+						link: "https://trd.zamitsolutions.net/resources/zSf5MJdW.pdf"
+					}
+				]
+			}
+		},
+		{
+			title: "Fixed Leave Credits Rule",
+			sub_title: "Based on 1/480 computation",
+			more_info: {
+				title: "Based on 1 minute = 1/480.",
+				sub_title: "No longer strictly follows on Civil Service Commission rule"
+			}
+		}
+	]
+
+	const conversion_rate = [
+		{
+			title: "8 hr undertime",
+			csc: "1.000",
+			fixed: "1.000"
+		},
+		{
+			title: "7 hr undertime",
+			csc: "0.875",
+			fixed: "0.875"
+		},
+		{
+			title: "6 hr undertime",
+			csc: "0.750",
+			fixed: "0.750"
+		},
+		{
+			title: "5 hr undertime",
+			csc: "0.625",
+			fixed: "0.625"
+		},
+		{
+			title: "4 hr undertime",
+			csc: "0.500",
+			fixed: "0.500"
+		},
+		{
+			title: "3 hr undertime",
+			csc: "0.375",
+			fixed: "0.375"
+		},
+		{
+			title: "2 hr undertime",
+			csc: "0.250",
+			fixed: "0.250"
+		},
+		{
+			title: "1 hr undertime",
+			csc: "0.125",
+			fixed: "0.125"
+		},
+		{
+			title: "60 min undertime",
+			csc: "0.125",
+			fixed: "0.125"
+		},
+		{
+			title: "59 min undertime",
+			csc: "0.123",
+			fixed: "0.123"
+		},
+		{
+			title: "58 min undertime",
+			csc: "0.121",
+			fixed: "0.121"
+		},
+		{
+			title: "57 min undertime",
+			csc: "0.119",
+			fixed: "0.119"
+		},
+		{
+			title: "56 min undertime",
+			csc: "0.117",
+			fixed: "0.117"
+		},
+		{
+			title: "55 min undertime",
+			csc: "0.115",
+			fixed: "0.115"
+		},
+		{
+			title: "54 min undertime",
+			csc: "0.112",
+			fixed: "0.113"
+		},
+		{
+			title: "53 min undertime",
+			csc: "0.110",
+			fixed: "0.110"
+		},
+		{
+			title: "52 min undertime",
+			csc: "0.108",
+			fixed: "0.108"
+		},
+		{
+			title: "51 min undertime",
+			csc: "0.106",
+			fixed: "0.106"
+		},
+		{
+			title: "50 min undertime",
+			csc: "0.104",
+			fixed: "0.104"
+		},
+		{
+			title: "49 min undertime",
+			csc: "0.102",
+			fixed: "0.102"
+		},
+		{
+			title: "48 min undertime",
+			csc: "0.100",
+			fixed: "0.100"
+		},
+		{
+			title: "47 min undertime",
+			csc: "0.098",
+			fixed: "0.098"
+		},
+		{
+			title: "46 min undertime",
+			csc: "0.096",
+			fixed: "0.096"
+		},
+		{
+			title: "45 min undertime",
+			csc: "0.094",
+			fixed: "0.094"
+		},
+		{
+			title: "44 min undertime",
+			csc: "0.092",
+			fixed: "0.092"
+		},
+		{
+			title: "43 min undertime",
+			csc: "0.090",
+			fixed: "0.090"
+		},
+		{
+			title: "42 min undertime",
+			csc: "0.087",
+			fixed: "0.088"
+		},
+		{
+			title: "41 min undertime",
+			csc: "0.085",
+			fixed: "0.085"
+		},
+		{
+			title: "40 min undertime",
+			csc: "0.083",
+			fixed: "0.083"
+		},
+		{
+			title: "39 min undertime",
+			csc: "0.081",
+			fixed: "0.081"
+		},
+		{
+			title: "38 min undertime",
+			csc: "0.079",
+			fixed: "0.079"
+		},
+		{
+			title: "37 min undertime",
+			csc: "0.077",
+			fixed: "0.077"
+		},
+		{
+			title: "36 min undertime",
+			csc: "0.075",
+			fixed: "0.075"
+		},
+		{
+			title: "35 min undertime",
+			csc: "0.073",
+			fixed: "0.073"
+		},
+		{
+			title: "34 min undertime",
+			csc: "0.071",
+			fixed: "0.071"
+		},
+		{
+			title: "33 min undertime",
+			csc: "0.069",
+			fixed: "0.069"
+		},
+		{
+			title: "32 min undertime",
+			csc: "0.067",
+			fixed: "0.067"
+		},
+		{
+			title: "31 min undertime",
+			csc: "0.065",
+			fixed: "0.065"
+		},
+		{
+			title: "30 min undertime",
+			csc: "0.062",
+			fixed: "0.063"
+		},
+		{
+			title: "29 min undertime",
+			csc: "0.060",
+			fixed: "0.060"
+		},
+		{
+			title: "28 min undertime",
+			csc: "0.058",
+			fixed: "0.058"
+		},
+		{
+			title: "27 min undertime",
+			csc: "0.056",
+			fixed: "0.056"
+		},
+		{
+			title: "26 min undertime",
+			csc: "0.054",
+			fixed: "0.054"
+		},
+		{
+			title: "25 min undertime",
+			csc: "0.052",
+			fixed: "0.052"
+		},
+		{
+			title: "24 min undertime",
+			csc: "0.050",
+			fixed: "0.050"
+		},
+		{
+			title: "23 min undertime",
+			csc: "0.048",
+			fixed: "0.048"
+		},
+		{
+			title: "22 min undertime",
+			csc: "0.046",
+			fixed: "0.046"
+		},
+		{
+			title: "21 min undertime",
+			csc: "0.044",
+			fixed: "0.044"
+		},
+		{
+			title: "20 min undertime",
+			csc: "0.042",
+			fixed: "0.042"
+		},
+		{
+			title: "19 min undertime",
+			csc: "0.040",
+			fixed: "0.040"
+		},
+		{
+			title: "18 min undertime",
+			csc: "0.037",
+			fixed: "0.038"
+		},
+		{
+			title: "17 min undertime",
+			csc: "0.035",
+			fixed: "0.035"
+		},
+		{
+			title: "16 min undertime",
+			csc: "0.033",
+			fixed: "0.033"
+		},
+		{
+			title: "15 min undertime",
+			csc: "0.031",
+			fixed: "0.031"
+		},
+		{
+			title: "14 min undertime",
+			csc: "0.029",
+			fixed: "0.029"
+		},
+		{
+			title: "13 min undertime",
+			csc: "0.027",
+			fixed: "0.027"
+		},
+		{
+			title: "12 min undertime",
+			csc: "0.025",
+			fixed: "0.025"
+		},
+		{
+			title: "11 min undertime",
+			csc: "0.023",
+			fixed: "0.023"
+		},
+		{
+			title: "10 min undertime",
+			csc: "0.021",
+			fixed: "0.021"
+		},
+		{
+			title: "9 min undertime",
+			csc: "0.019",
+			fixed: "0.019"
+		},
+		{
+			title: "8 min undertime",
+			csc: "0.017",
+			fixed: "0.017"
+		},
+		{
+			title: "7 min undertime",
+			csc: "0.015",
+			fixed: "0.016"
+		},
+		{
+			title: "6 min undertime",
+			csc: "0.012",
+			fixed: "0.013"
+		},
+		{
+			title: "5 min undertime",
+			csc: "0.010",
+			fixed: "0.010"
+		},
+		{
+			title: "4 min undertime",
+			csc: "0.008",
+			fixed: "0.008"
+		},
+		{
+			title: "3 min undertime",
+			csc: "0.006",
+			fixed: "0.006"
+		},
+		{
+			title: "2 min undertime",
+			csc: "0.004",
+			fixed: "0.004"
+		},
+		{
+			title: "1 min undertime",
+			csc: "0.002",
+			fixed: "0.002"
+		}
+	]
+
 	return (
-		<View className={theme ? "bg-neutral-950" : "bg-neutral-200"}>
-			<View
-				className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} p-4  m-4 rounded-2xl flex flex-col justify-start gap-4`}
+		<View className={`${theme ? "bg-neutral-950" : "bg-neutral-200"} flex-1`}>
+			<ScrollView
+				className="gap-2 py-4"
+				contentContainerStyle={{ paddingBottom: 24, gap: 8 }}
+				showsVerticalScrollIndicator={false}
 			>
-				<View className={`flex flex-row justify-start gap-4`}>
-					<Image
-						style={{ width: 50, height: 50, borderRadius: 10 }}
-						source={require("@/assets/images/android/play_store_512.png")}
-					></Image>
+				{informations.map((item, index) => {
+					return (
+						<View key={index} className="px-4">
+							<CollapseCard
+								title={item.title}
+								sub_title={item.sub_title}
+								more_info={item.more_info}
+							/>
+						</View>
+					)
+				})}
 
-					<View className="grow ">
-						<Text
-							className={`${theme ? "text-brand-50" : "text-brand-900"} text-brand-50 text-2xl font-semibold`}
-						>
-							Leave Credit Balance Calculator
-						</Text>
-						<Text className={`${theme ? "text-brand-50" : "text-brand-900"} `}>
-							v1.1
-						</Text>
-					</View>
-				</View>
+				{conversion_rate.map((item, index) => {
+					return (
+						<View key={index} className="px-4">
+							<View
+								className={`${index === 0 ? "rounded-t-3xl" : "rounded-t-xl"} ${index === conversion_rate.length - 1 ? "rounded-b-3xl" : "rounded-b-xl"} ${theme ? "bg-neutral-900" : "bg-white"}  p-6 flex flex-row gap-2 justify-between`}
+							>
+								<Text
+									className={`${theme ? "text-neutral-300" : " text-neutral-600"} font-semibold`}
+								>
+									{item.title}
+								</Text>
 
-				<View className={`flex flex-row justify-start gap-4`}>
-					{theme ? (
-						<Svg width={32} height={32} viewBox="0 0 24 24" color="#fff">
-							<Path
-								color="#fff"
-								fill="#fff"
-								d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
-							></Path>
-						</Svg>
-					) : (
-						<Svg width={32} height={32} viewBox="0 0 24 24" color="#000">
-							<Path
-								color="#000"
-								fill="#000"
-								d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
-							></Path>
-						</Svg>
-					)}
+								{item.csc === item.fixed ? (
+									<View className="flex flex-row gap-2">
+										<View
+											className={`${theme ? "bg-red-800" : "bg-red-50"} items-center flex flex-row gap-2  px-3 py-1 rounded-full`}
+										>
+											<Text
+												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-xs`}
+											>
+												{`CSC & Fixed`}
+											</Text>
+											<Text
+												className={`${theme ? "text-red-100" : "text-orange-700"} font-semibold text-xs`}
+											>
+												{`-${item.csc}`}
+											</Text>
+										</View>
+									</View>
+								) : (
+									<View className="flex flex-row gap-2">
+										<View
+											className={`${theme ? "bg-red-800" : "bg-red-50"} items-center flex flex-row gap-2  px-3 py-1 rounded-full`}
+										>
+											<Text
+												className={`${theme ? "text-red-100" : "text-red-700"} font-semibold text-xs`}
+											>
+												{`CSC`}
+											</Text>
+											<Text
+												className={`${theme ? "text-red-100" : "text-red-700"} font-semibold text-xs`}
+											>
+												{`-${item.csc}`}
+											</Text>
+										</View>
 
-					<View className="grow flex flex-row items-center">
-						<Link
-							href="https://github.com/migfus/leave-balance-calculator"
-							className={`${theme ? "text-brand-50" : "text-brand-900"} `}
-						>
-							https://github.com/migfus/leave-balance-calculator
-						</Link>
-					</View>
-				</View>
-			</View>
-
-			<TouchableOpacity
-				className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} m-4 rounded-2xl p-4 `}
-				onPress={toggleTheme}
-			>
-				<View className="flex flex-row justify-between items-center">
-					<Text
-						className={`${theme ? "text-neutral-50" : "text-neutral-600"} font-semibold`}
-					>
-						Dark Mode
-					</Text>
-
-					<Switch
-						value={theme}
-						onValueChange={() => toggleTheme()}
-						trackColor={{ false: "#ccc", true: "#4ade80" }}
-						thumbColor={theme ? "#22c55e" : "#f4f4f5"}
-						style={{ height: 32, width: 32 }}
-					/>
-				</View>
-			</TouchableOpacity>
-
-			<View className="p-4 bg-neutral-9050 m-4 rounded-2xl h-full"></View>
+										<View
+											className={`${theme ? "bg-orange-800" : "bg-orange-50"} items-center flex flex-row gap-2  px-3 py-1 rounded-full`}
+										>
+											<Text
+												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-xs`}
+											>
+												{`Fixed`}
+											</Text>
+											<Text
+												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-xs`}
+											>
+												{`-${item.fixed}`}
+											</Text>
+										</View>
+									</View>
+								)}
+							</View>
+						</View>
+					)
+				})}
+			</ScrollView>
 		</View>
 	)
 }

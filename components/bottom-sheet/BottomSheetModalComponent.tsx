@@ -90,11 +90,13 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 									onPress={() => copyToClipboard(item.link)}
 									className="flex flex-row justify-end gap-2 items-center"
 								>
-									<Text className="text-xl font-semibold text-neutral-600">
+									<Text
+										className={`${theme ? "text-neutral-300" : "text-neutral-600"} text-xl font-semibold`}
+									>
 										{item.name}
 									</Text>
 
-									<CopyIcon size={28} color="#484848" />
+									<CopyIcon size={28} color={theme ? "#cecece" : "#191919"} />
 								</TouchableOpacity>
 							) : item.type === "check" ? (
 								<TouchableOpacity
@@ -105,14 +107,22 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 									}}
 									className="flex flex-row justify-end gap-2 items-center"
 								>
-									<Text className="text-xl font-semibold text-neutral-600">
+									<Text
+										className={`${theme ? "text-neutral-300" : "text-neutral-600"} text-xl font-semibold`}
+									>
 										{item.name}
 									</Text>
 
 									{item.active ? (
-										<CheckIcon size={28} color="#295049" />
+										<CheckIcon
+											size={28}
+											color={theme ? "#b0b0b0" : "#191919"}
+										/>
 									) : (
-										<CircleIcon size={28} color="#295049" />
+										<CircleIcon
+											size={28}
+											color={theme ? "#b0b0b0" : "#191919"}
+										/>
 									)}
 								</TouchableOpacity>
 							) : (
@@ -125,7 +135,7 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 										{item.name}
 									</Text>
 
-									<CopyIcon size={28} color="#484848" />
+									<CopyIcon size={28} color={theme ? "#cecece" : "#191919"} />
 								</TouchableOpacity>
 							)
 						)}
@@ -138,9 +148,13 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 							}}
 							className="flex flex-row justify-end gap-2 items-center mb-6"
 						>
-							<Text className="text-xl font-semibold text-red-600">Close</Text>
+							<Text
+								className={`${theme ? "text-red-400" : "text-red-600"} text-xl font-semibold `}
+							>
+								Close
+							</Text>
 
-							<XIcon size={28} color="#b32329" />
+							<XIcon size={28} color={theme ? "#c96062" : "#b32329"} />
 						</TouchableOpacity>
 					</BottomSheetView>
 				</BottomSheetModal>

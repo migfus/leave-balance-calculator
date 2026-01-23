@@ -3,14 +3,14 @@ import { createJSONStorage, persist } from "zustand/middleware"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 interface ComputationMethod {
-	method: "Civil Service Method" | "Fixed Leave Credit Method"
+	method: "CSC Leave Credits Rule" | "Fixed Leave Credits Rule"
 	changeMethod: (new_method: ComputationMethod["method"]) => void
 }
 
 const useComputationMethodStore = create<ComputationMethod>()(
 	persist(
 		(set) => ({
-			method: "Civil Service Method",
+			method: "CSC Leave Credits Rule",
 
 			changeMethod: (new_method: ComputationMethod["method"]) => {
 				set({ method: new_method })

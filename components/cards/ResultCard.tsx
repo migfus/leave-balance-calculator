@@ -1,4 +1,5 @@
 import useBottomSheetStore from "@/store/bottomSheetStore"
+import useComputationMethodStore from "@/store/computationMethodStore"
 import { leaveBalanceComputation } from "@/utils"
 import React, { useEffect, useRef } from "react"
 import { Text, TouchableOpacity, View } from "react-native"
@@ -16,7 +17,9 @@ const ResultCard = ({
 	minutes,
 	theme = false
 }: ResultCardProps) => {
-	const result = { balance, hours, minutes }
+	const method = useComputationMethodStore((s) => s.method)
+
+	const result = { balance, hours, minutes, method }
 	const new_balance = leaveBalanceComputation(result)
 	const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const $changeListStore = useBottomSheetStore((s) => s.changeList)
@@ -34,11 +37,17 @@ const ResultCard = ({
 			<TouchableOpacity
 				onPress={() =>
 					$changeListStore([
-						{ name: new_balance[1], link: new_balance[1], type: "copy" },
+						{
+							name: new_balance[1],
+							link: new_balance[1],
+							type: "copy",
+							callback: () => {}
+						},
 						{
 							name: `-${new_balance[0]}`,
 							link: `-${new_balance[0]}`,
-							type: "copy"
+							type: "copy",
+							callback: () => {}
 						}
 					])
 				}
@@ -46,17 +55,19 @@ const ResultCard = ({
 			>
 				<View className="flex flex-col justify-end gap-2">
 					<View className="flex flex-row justify-end ">
-						<View className="flex flex-row items-end gap-1 bg-brand-50 rounded-full px-6 py-2">
+						<View
+							className={`${theme ? "bg-brand-900" : "bg-brand-50"} flex flex-row items-end gap-1 rounded-full px-6 py-2`}
+						>
 							<View className="flex flex-row items-end">
 								<Text
 									numberOfLines={1}
-									className={`${theme ? "text-neutral-50" : "text-brand-700"} text-right text-4xl font-bold`}
+									className={`${theme ? "text-brand-100" : "text-brand-700"} text-right text-4xl font-bold`}
 								>
 									{`${new_balance[1].split(".")[0]}.`}
 								</Text>
 								<Text
 									numberOfLines={1}
-									className={`${theme ? "text-neutral-50" : "text-brand-700"} text-right text-3xl font-bold`}
+									className={`${theme ? "text-brand-100" : "text-brand-700"} text-right text-3xl font-bold`}
 								>
 									{`${new_balance[1].split(".")[1]}`}
 								</Text>
@@ -64,7 +75,7 @@ const ResultCard = ({
 
 							<Text
 								numberOfLines={1}
-								className={`${theme ? "text-neutral-50" : "text-neutral-700"} text-right text-md text-sm font-semibold`}
+								className={`${theme ? "text-brand-200" : "text-neutral-700"} text-right text-md text-sm font-semibold`}
 							>
 								new bal
 							</Text>
@@ -72,17 +83,19 @@ const ResultCard = ({
 					</View>
 
 					<View className="flex flex-row justify-end">
-						<View className="flex flex-row items-end gap-1 bg-red-50 rounded-full px-5 py-1">
+						<View
+							className={`${theme ? "bg-red-900" : "bg-red-50"} "flex flex-row items-end gap-1 rounded-full px-5 py-1`}
+						>
 							<View className="flex flex-row items-end">
 								<Text
 									numberOfLines={1}
-									className="text-right text-red-700 font-bold text-2xl"
+									className={`${theme ? "text-red-100" : "text-red-700"} text-right  font-bold text-2xl`}
 								>
 									{`${new_balance[0] === "0.000" ? "0" : "-" + new_balance[0].split(".")[0]}.`}
 								</Text>
 								<Text
 									numberOfLines={1}
-									className="text-right text-red-700 font-bold text-xl"
+									className={`${theme ? "text-red-100" : "text-red-700"} text-right font-bold text-xl`}
 								>
 									{`${new_balance[0].split(".")[1] === "0" ? "0" : new_balance[0].split(".")[1]}`}
 								</Text>
@@ -90,7 +103,7 @@ const ResultCard = ({
 
 							<Text
 								numberOfLines={1}
-								className={`text-red-700 text-right text-sm font-semibold`}
+								className={`${theme ? "text-red-200" : "text-red-700"}  text-right text-sm font-semibold`}
 							>
 								cost
 							</Text>

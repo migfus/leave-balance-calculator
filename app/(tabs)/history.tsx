@@ -60,15 +60,15 @@ const HistoryCard = ({
 					onPress={onPress}
 					className={`${theme ? "bg-neutral-900" : "bg-neutral-50"} px-4 pt-4 flex justify-between items-center flex-row p-4 rounded-full`}
 				>
-					<FreshIcon />
+					<FreshIcon color={theme ? "#898989" : "#484848"} />
 					<Text
-						className={`${theme ? "text-neutral-100" : "text-neutral-600"}`}
+						className={`${theme ? "text-neutral-300" : "text-neutral-600"}`}
 					>
 						Clear History
 					</Text>
 
 					<Text
-						className={`${theme ? "text-neutral-200" : "text-neutral-600"} px-2 rounded-full bg-neutral-200 text-sm`}
+						className={`${theme ? "text-neutral-400 bg-neutral-700" : "text-neutral-600 bg-neutral-200"} px-2 rounded-full  text-sm`}
 					>
 						{history.length}
 					</Text>
@@ -87,10 +87,10 @@ const HistoryCard = ({
 					renderItem={({ item }) =>
 						selected_filter === item ? (
 							<View
-								className={`${theme ? "bg-neutral-900" : "bg-brand-200 "} "flex flex-row justify-between py-2 px-4 rounded-full`}
+								className={`${theme ? "bg-brand-900" : "bg-brand-200"} "flex flex-row justify-between py-2 px-4 rounded-full`}
 							>
 								<Text
-									className={`${theme ? "text-neutral-500" : "text-brand-700"} text-md font-semibold`}
+									className={`${theme ? "text-brand-100" : "text-brand-700"} text-md font-semibold`}
 								>
 									{item}
 								</Text>
@@ -101,10 +101,10 @@ const HistoryCard = ({
 									setSelectedFilter(item)
 									Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 								}}
-								className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} "flex flex-row justify-between py-2 px-4 rounded-full`}
+								className={`${theme ? "bg-neutral-900" : "bg-white"} "flex flex-row justify-between py-2 px-4 rounded-full`}
 							>
 								<Text
-									className={`${theme ? "text-neutral-500" : "text-neutral-600"} text-md font-semibold`}
+									className={`${theme ? "text-neutral-400" : "text-neutral-600"} text-md font-semibold`}
 								>
 									{item}
 								</Text>
@@ -113,9 +113,11 @@ const HistoryCard = ({
 					}
 				></FlatList>
 				{newestFirstHistory.length === 0 && (
-					<View className="flex flex-col items-center justify-center bg-neutral-100 rounded-full p-6 mt-8">
+					<View
+						className={`${theme ? "bg-neutral-900" : "bg-white"} flex flex-col items-center justify-center  rounded-full p-6 mt-8`}
+					>
 						<Text
-							className={`${theme ? "text-neutral-500" : "text-neutral-600"} text-center `}
+							className={`${theme ? "text-neutral-400" : "text-neutral-600"} text-center `}
 						>
 							Empty
 						</Text>
@@ -130,105 +132,114 @@ const HistoryCard = ({
 					keyExtractor={(item) => item.timeStamps}
 					scrollEnabled={true}
 					contentContainerStyle={{ gap: 8 }}
-					renderItem={({ item }) => (
-						<TouchableOpacity
-							onPress={() =>
-								$changeListStore([
-									{
-										name: leaveBalanceComputation(item)[1],
-										link: leaveBalanceComputation(item)[1],
-										type: "copy",
-										callback: () => {}
-									},
-									{
-										name: `-${leaveBalanceComputation(item)[0]}`,
-										link: `-${leaveBalanceComputation(item)[0]}`,
-										type: "copy",
-										callback: () => {}
-									}
-								])
-							}
-							className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} "flex flex-row justify-between  p-4 rounded-3xl`}
-						>
-							<Text
-								className={`${theme ? "text-neutral-500" : "text-neutral-600"} text-xs`}
+					renderItem={({ item, index }) => {
+						const computed = leaveBalanceComputation({
+							balance: item.balance,
+							hours: item.hours,
+							minutes: item.minutes,
+							method: "CSC Leave Credits Rule"
+						})
+
+						return (
+							<TouchableOpacity
+								onPress={() =>
+									$changeListStore([
+										{
+											name: computed[1],
+											link: computed[1],
+											type: "copy",
+											callback: () => {}
+										},
+										{
+											name: `-${computed[0]}`,
+											link: `-${computed[0]}`,
+											type: "copy",
+											callback: () => {}
+										}
+									])
+								}
+								className={`${theme ? "bg-neutral-900" : "bg-white"} ${index === 0 ? "rounded-t-3xl" : "rounded-t-xl"} ${index === newestFirstHistory.length - 1 ? "rounded-b-3xl" : "rounded-b-xl"} flex flex-row justify-between  p-4 rounded-3xl`}
 							>
-								{messengerStyleTime(item.timeStamps)}
-							</Text>
+								<Text
+									className={`${theme ? "text-neutral-400" : "text-neutral-600"} text-xs`}
+								>
+									{messengerStyleTime(item.timeStamps)}
+								</Text>
 
-							<View className={`flex flex-col gap-2`}>
-								<View className="flex flex-row items-end justify-end gap-1 ">
-									<View className="flex flex-row items-end gap-1 justify-end ">
-										<Text
-											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md font-semibold`}
-										>
-											{`${item.balance}`}
-										</Text>
+								<View className={`flex flex-col gap-2`}>
+									<View className="flex flex-row items-end justify-end gap-1 ">
+										<View className="flex flex-row items-end gap-1 justify-end ">
+											<Text
+												numberOfLines={1}
+												className={`${theme ? "text-neutral-400" : "text-neutral-800"} text-md font-semibold`}
+											>
+												{`${item.balance}`}
+											</Text>
 
-										<Text
-											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-700"} text-sm`}
-										>
-											{`old bal `}
-										</Text>
+											<Text
+												numberOfLines={1}
+												className={`${theme ? "text-neutral-400" : "text-neutral-700"} text-sm`}
+											>
+												{`old bal `}
+											</Text>
 
-										<Text
-											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md font-semibold`}
-										>
-											{`-`}
-										</Text>
+											<Text
+												numberOfLines={1}
+												className={`${theme ? "text-neutral-400" : "text-neutral-800"} text-md font-semibold`}
+											>
+												{`-`}
+											</Text>
 
-										<Text
-											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md font-semibold`}
-										>
-											{`${item.hours}`}
-										</Text>
+											<Text
+												numberOfLines={1}
+												className={`${theme ? "text-neutral-400" : "text-neutral-800"} text-md font-semibold`}
+											>
+												{`${item.hours}`}
+											</Text>
 
-										<Text
-											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-sm`}
-										>
-											{`hr `}
-										</Text>
-										<Text
-											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-md font-semibold`}
-										>
-											{`${item.minutes}`}
-										</Text>
+											<Text
+												numberOfLines={1}
+												className={`${theme ? "text-neutral-400" : "text-neutral-800"} text-sm`}
+											>
+												{`hr `}
+											</Text>
+											<Text
+												numberOfLines={1}
+												className={`${theme ? "text-neutral-400" : "text-neutral-800"} text-md font-semibold`}
+											>
+												{`${item.minutes}`}
+											</Text>
 
-										<Text
-											numberOfLines={1}
-											className={`${theme ? "text-neutral-200" : "text-neutral-800"} text-sm`}
-										>
-											{`min `}
-										</Text>
+											<Text
+												numberOfLines={1}
+												className={`${theme ? "text-neutral-400" : "text-neutral-800"} text-sm`}
+											>
+												{`min `}
+											</Text>
 
+											<Text
+												numberOfLines={1}
+												className={`${theme ? "text-neutral-400" : "text-neutral-800"} text-md font-semibold`}
+											>
+												{`= `}
+											</Text>
+										</View>
+									</View>
+
+									<View className="flex flex-row justify-end gap-2 items-center">
 										<Text
 											numberOfLines={1}
-											className={`${theme ? "text-neutral-300" : "text-neutral-800"} text-md font-semibold`}
-										>
-											{`= `}
-										</Text>
+											className={`${theme ? "bg-red-900 text-red-100" : "bg-red-100 text-red-700"} text-xl font-semibold rounded-full px-4 py-1`}
+										>{`-${computed[0]} `}</Text>
+										<Text
+											numberOfLines={1}
+											className={`${theme ? "bg-brand-900 text-brand-50" : "bg-brand-100 text-brand-700"} text-2xl font-semibold rounded-full px-4 py-1`}
+										>{`${computed[1]} `}</Text>
 									</View>
 								</View>
-
-								<View className="flex flex-row justify-end gap-2 items-center">
-									<Text
-										numberOfLines={1}
-										className={`text-xl font-semibold bg-red-100 text-red-700 rounded-full px-4 py-1`}
-									>{`-${leaveBalanceComputation(item)[0]} `}</Text>
-									<Text
-										numberOfLines={1}
-										className={`text-2xl font-semibold bg-brand-100 text-brand-700 rounded-full px-4 py-1`}
-									>{`${leaveBalanceComputation(item)[1]} `}</Text>
-								</View>
-							</View>
-						</TouchableOpacity>
-					)}
+							</TouchableOpacity>
+						)
+					}}
 				></FlatList>
 			</View>
 		</View>

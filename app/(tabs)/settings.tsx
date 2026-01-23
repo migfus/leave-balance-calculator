@@ -84,7 +84,7 @@ const Settings = () => {
 	return (
 		<View className={theme ? "bg-neutral-950" : "bg-neutral-200"}>
 			<View
-				className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} p-6  m-4 rounded-3xl flex flex-col justify-start gap-4`}
+				className={`${theme ? "bg-neutral-900" : "bg-white"} p-6  m-4 rounded-3xl flex flex-col justify-start gap-4`}
 			>
 				<View className={`flex flex-row justify-start gap-4`}>
 					<Image
@@ -94,12 +94,12 @@ const Settings = () => {
 
 					<View className="grow ">
 						<Text
-							className={`${theme ? "text-brand-50" : "text-brand-900"} text-brand-50 text-2xl font-semibold`}
+							className={`${theme ? "text-neutral-300" : "text-brand-900"}  text-2xl font-semibold`}
 						>
 							Leave Credit Balance Calculator
 						</Text>
 						<Text
-							className={`${theme ? "text-brand-50" : "text-neutral-500"} `}
+							className={`${theme ? "text-neutral-400" : "text-neutral-500"} `}
 						>
 							v1.1.0
 						</Text>
@@ -107,8 +107,8 @@ const Settings = () => {
 				</View>
 
 				<View>
-					<Text className="text-neutral-500">- Revamp UI</Text>
-					<Text className="text-neutral-500">- Optimizations</Text>
+					<Text className="text-neutral-400">- Revamp UI</Text>
+					<Text className="text-neutral-400">- Optimizations</Text>
 				</View>
 
 				<View className="flex flex-row gap-4">
@@ -116,33 +116,41 @@ const Settings = () => {
 						onPress={() =>
 							Linking.openURL("https://trello.com/b/URHhZk2p/lcbc-app")
 						}
-						className="flex flex-row gap-2 bg-neutral-200 p-2 rounded-full px-4 "
+						className={`${theme ? "bg-neutral-800" : "bg-neutral-200"} flex flex-row gap-2  p-2 rounded-full px-4`}
 					>
-						<TrelloIcon color="#393939" />
-						<Text className="font-semibold text-neutral-700">App Updates</Text>
+						<TrelloIcon color={theme ? "#b0b0b0" : "#393939"} />
+						<Text
+							className={`${theme ? "text-neutral-300" : "text-neutral-700"} font-semibold `}
+						>
+							App Updates
+						</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
-						className="flex flex-row gap-2 bg-neutral-200 p-2 rounded-full px-4 "
+						className={`${theme ? "bg-neutral-800" : "bg-neutral-200"} flex flex-row gap-2  p-2 rounded-full px-4`}
 						onPress={() =>
 							Linking.openURL(
 								"https://github.com/migfus/leave-balance-calculator"
 							)
 						}
 					>
-						<GithubIcon color="#393939" />
-						<Text className="font-semibold text-neutral-700">Open Source</Text>
+						<GithubIcon color={theme ? "#b0b0b0" : "#393939"} />
+						<Text
+							className={`${theme ? "text-neutral-300" : "text-neutral-700"} font-semibold `}
+						>
+							Open Source
+						</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
 
 			<View className="mx-4 flex flex-col gap-2">
 				<TouchableOpacity
-					className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} rounded-3xl p-6 `}
+					className={`${theme ? "bg-neutral-900" : "bg-white"} rounded-t-3xl rounded-b-xl p-6 `}
 					onPress={toggleTheme}
 				>
 					<View className="flex flex-row justify-between items-center">
 						<Text
-							className={`${theme ? "text-neutral-50" : "text-neutral-600"} font-semibold`}
+							className={`${theme ? "text-neutral-300" : "text-neutral-600"} font-semibold`}
 						>
 							Dark Mode
 						</Text>
@@ -161,45 +169,47 @@ const Settings = () => {
 					onPress={() =>
 						$changeList([
 							{
-								name: "Civil Service Method",
+								name: "CSC Leave Credits Rule",
 								link: "",
 								type: "check",
-								active: $computation_method === "Civil Service Method",
+								active: $computation_method === "CSC Leave Credits Rule",
 								callback: () => {
-									$changeComputationMethod("Civil Service Method")
+									$changeComputationMethod("CSC Leave Credits Rule")
 									$changeList([])
 								}
 							},
 							{
-								name: "Fixed Leave Credit Method",
+								name: "Fixed Leave Credits Rule",
 								link: "",
 								type: "check",
-								active: $computation_method === "Fixed Leave Credit Method",
+								active: $computation_method === "Fixed Leave Credits Rule",
 								callback: () => {
-									$changeComputationMethod("Fixed Leave Credit Method")
+									$changeComputationMethod("Fixed Leave Credits Rule")
 									$changeList([])
 								}
 							}
 						])
 					}
-					className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} rounded-3xl p-6 `}
+					className={`${theme ? "bg-neutral-900" : "bg-white"} rounded-xl p-6 `}
 				>
 					<View className="flex flex-row justify-between items-center">
 						<Text
-							className={`${theme ? "text-neutral-50" : "text-neutral-600"} font-semibold`}
+							className={`${theme ? "text-neutral-300" : "text-neutral-600"} font-semibold`}
 						>
 							Computation Mode
 						</Text>
 
 						<View className="flex flex-row gap-2">
-							<Text className="text-neutral-500">{$computation_method}</Text>
-							<ChevronDownIcon color="#393939"></ChevronDownIcon>
+							<Text className={theme ? "text-neutral-400" : "text-neutral-500"}>
+								{$computation_method}
+							</Text>
+							<ChevronDownIcon color={theme ? "#b0b0b0" : "#393939"} />
 						</View>
 					</View>
 				</TouchableOpacity>
 
 				<View
-					className={`${theme ? "bg-neutral-900" : "bg-neutral-100"} rounded-3xl p-6 `}
+					className={`${theme ? "bg-neutral-900" : "bg-white"} rounded-b-3xl rounded-t-xl p-6 `}
 				>
 					{sent_message ? (
 						<View>
@@ -210,18 +220,21 @@ const Settings = () => {
 					) : (
 						<View className="flex flex-col justify-between gap-2">
 							<Text
-								className={`${theme ? "text-neutral-50" : "text-neutral-600"} font-semibold`}
+								className={`${theme ? "text-neutral-300" : "text-neutral-600"} font-semibold mb-2`}
 							>
 								Suggest to Us
 							</Text>
 
-							<View className="bg-neutral-200 rounded-3xl p-4">
+							<View
+								className={`${theme ? "bg-neutral-700" : "bg-neutral-200"} rounded-3xl p-4`}
+							>
 								<TextInput
-									className=""
+									className={`${theme ? "text-neutral-300 accent-neutral-300" : "text-neutral-600"}`}
 									multiline
 									numberOfLines={4}
 									value={message}
 									placeholder="Message"
+									placeholderTextColor={theme ? "#b0b0b0" : "#525252"}
 									onChangeText={setMessage}
 								/>
 							</View>
@@ -237,11 +250,21 @@ const Settings = () => {
 									<TouchableOpacity
 										onPress={() => sendSuggestion()}
 										className={`${
-											message !== "" ? "bg-neutral-300" : "bg-neutral-100"
-										} rounded-3xl p-4 items-end flex flex-row gap-2 `}
+											message !== "" && theme
+												? "bg-neutral-800"
+												: message !== ""
+													? "bg-neutral-100"
+													: theme
+														? "bg-neutral-900"
+														: "bg-white"
+										} ${theme ? "bg-neutral-800" : "bg-neutral-200"} rounded-3xl p-4 items-end flex flex-row gap-2 `}
 									>
-										<Text className="font-semibold text-neutral-600">Send</Text>
-										<SendIcon color="#484848" size={20} />
+										<Text
+											className={`${theme ? "text-neutral-300" : "text-neutral-700"} font-semibold `}
+										>
+											Send
+										</Text>
+										<SendIcon color={theme ? "#b0b0b0" : "#393939"} size={20} />
 									</TouchableOpacity>
 								)}
 							</View>
