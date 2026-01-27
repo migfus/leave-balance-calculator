@@ -89,7 +89,7 @@ const Settings = () => {
 				<View className={`flex flex-row justify-start gap-4`}>
 					<Image
 						style={{ width: 50, height: 50, borderRadius: 10 }}
-						source={require("@/assets/images/android/play_store_512.png")}
+						source={require("@/assets/images/favicon.png")}
 					></Image>
 
 					<View className="grow ">
@@ -101,7 +101,7 @@ const Settings = () => {
 						<Text
 							className={`${theme ? "text-neutral-400" : "text-neutral-500"} `}
 						>
-							v1.1.0
+							v1.1.1
 						</Text>
 					</View>
 				</View>
@@ -109,6 +109,7 @@ const Settings = () => {
 				<View>
 					<Text className="text-neutral-400">- Revamp UI</Text>
 					<Text className="text-neutral-400">- Optimizations</Text>
+					<Text className="text-neutral-400">- Bug Fix</Text>
 				</View>
 
 				<View className="flex flex-row gap-4">
@@ -146,7 +147,6 @@ const Settings = () => {
 			<View className="mx-4 flex flex-col gap-2">
 				<TouchableOpacity
 					className={`${theme ? "bg-neutral-900" : "bg-white"} rounded-t-3xl rounded-b-xl p-6 `}
-					onPress={toggleTheme}
 				>
 					<View className="flex flex-row justify-between items-center">
 						<Text
@@ -157,7 +157,7 @@ const Settings = () => {
 
 						<Switch
 							value={theme}
-							onValueChange={() => toggleTheme()}
+							onValueChange={toggleTheme}
 							trackColor={{ false: "#ccc", true: "#4ade80" }}
 							thumbColor={theme ? "#22c55e" : "#f4f4f5"}
 							style={{ height: 32, width: 32 }}

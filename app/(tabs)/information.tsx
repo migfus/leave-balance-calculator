@@ -416,12 +416,12 @@ const Information = () => {
 											className={`${theme ? "bg-red-800" : "bg-red-50"} items-center flex flex-row gap-2  px-3 py-1 rounded-full`}
 										>
 											<Text
-												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-xs`}
+												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-sm`}
 											>
 												{`CSC & Fixed`}
 											</Text>
 											<Text
-												className={`${theme ? "text-red-100" : "text-orange-700"} font-semibold text-xs`}
+												className={`${theme ? "text-red-100" : "text-orange-700"} font-semibold text-sm`}
 											>
 												{`-${item.csc}`}
 											</Text>
@@ -433,12 +433,12 @@ const Information = () => {
 											className={`${theme ? "bg-red-800" : "bg-red-50"} items-center flex flex-row gap-2  px-3 py-1 rounded-full`}
 										>
 											<Text
-												className={`${theme ? "text-red-100" : "text-red-700"} font-semibold text-xs`}
+												className={`${theme ? "text-red-100" : "text-red-700"} font-semibold text-sm`}
 											>
 												{`CSC`}
 											</Text>
 											<Text
-												className={`${theme ? "text-red-100" : "text-red-700"} font-semibold text-xs`}
+												className={`${theme ? "text-red-100" : "text-red-700"} font-semibold text-sm`}
 											>
 												{`-${item.csc}`}
 											</Text>
@@ -448,12 +448,12 @@ const Information = () => {
 											className={`${theme ? "bg-orange-800" : "bg-orange-50"} items-center flex flex-row gap-2  px-3 py-1 rounded-full`}
 										>
 											<Text
-												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-xs`}
+												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-sm`}
 											>
 												{`Fixed`}
 											</Text>
 											<Text
-												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-xs`}
+												className={`${theme ? "text-orange-100" : "text-orange-700"} font-semibold text-sm`}
 											>
 												{`-${item.fixed}`}
 											</Text>

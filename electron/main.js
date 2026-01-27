@@ -31,7 +31,7 @@ app.commandLine.appendSwitch(
 app.setName("Leave Balance Calculator")
 
 function createWindow() {
-	const zoomFactor = Number.parseFloat(process.env.ELECTRON_ZOOM ?? "0.8")
+	const zoomFactor = Number.parseFloat(process.env.ELECTRON_ZOOM ?? "0.9")
 	const safeZoomFactor = Number.isFinite(zoomFactor)
 		? Math.min(2, Math.max(0.25, zoomFactor))
 		: 0.8

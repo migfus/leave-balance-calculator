@@ -3,7 +3,6 @@ import React, { useState } from "react"
 import ChevronDownIcon from "@/icons/chevronDownIcon"
 import MinusIcon from "@/icons/minusIcon"
 import { useThemeStore } from "@/store/themeStore"
-import { useTheme } from "@react-navigation/native"
 
 interface CollapseCardProps {
 	title: string
@@ -38,12 +37,12 @@ const CollapseCard = ({ title, sub_title, more_info }: CollapseCardProps) => {
 				>
 					<View className="flex flex-col gap-2">
 						<Text
-							className={`${$theme ? "text-neutral-300" : "text-neutral-700"} font-semibold text-xl`}
+							className={`${$theme ? "text-neutral-300" : "text-neutral-700"} font-semibold text-xl text-wrap`}
 						>
 							{title}
 						</Text>
 						<Text
-							className={`${$theme ? "text-neutral-400" : "text-neutral-500"} `}
+							className={`${$theme ? "text-neutral-400" : "text-neutral-500"} text-wrap`}
 						>
 							{sub_title}
 						</Text>
@@ -64,14 +63,18 @@ const CollapseCard = ({ title, sub_title, more_info }: CollapseCardProps) => {
 					className={`${$theme ? "bg-neutral-900" : "bg-white"} p-6 rounded-t-xl rounded-b-3xl flex flex-col gap-4`}
 				>
 					<View className="flex flex-row justify-between items-center">
-						<View className="flex flex-col gap-2">
+						<View className="flex flex-col gap-2 flex-1 min-w-0">
 							<Text
-								className={`${$theme ? "text-neutral-300" : "text-neutral-700"} font-semibold text-xl`}
+								numberOfLines={1}
+								ellipsizeMode="tail"
+								className={`${$theme ? "text-neutral-300" : "text-neutral-700"} font-semibold text-xl text-wrap flex-shrink`}
 							>
 								{more_info.title}
 							</Text>
 							<Text
-								className={`${$theme ? "text-neutral-400" : "text-neutral-500"} `}
+								numberOfLines={2}
+								ellipsizeMode="tail"
+								className={`${$theme ? "text-neutral-400" : "text-neutral-500"} text-wrap flex-shrink`}
 							>
 								{more_info.sub_title}
 							</Text>

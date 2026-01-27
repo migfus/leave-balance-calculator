@@ -253,6 +253,13 @@ export default function History() {
 
 	const theme = useThemeStore((s) => s.theme)
 	const theme_hydrated = useThemeStore.persist.hasHydrated()
+	const $changeList = useBottomSheetStore((s) => s.changeList)
+
+	function clearHistory() {
+		resetHistory()
+
+		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+	}
 
 	if (!theme_hydrated) {
 		return
@@ -262,50 +269,26 @@ export default function History() {
 		return null
 	}
 
-	function reset() {
-		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-
-		console.log("resetting history")
-
-		// React Native Web: use browser confirm/alert
-		const isWeb =
-			typeof window !== "undefined" && typeof window.confirm === "function"
-
-		if (isWeb) {
-			const ok = window.confirm("Clear History\n\nDo you want to continue?")
-			if (!ok) return
-
-			resetHistory()
-			if (typeof window.alert === "function") {
-				window.alert("History Cleared")
-			}
-			return
-		}
-
-		// Native: use RN Alert + ToastAndroid
-		Alert.alert("Clear History", "Do you want to continue?", [
-			{ text: "Cancel", style: "cancel" },
-			{
-				text: "OK",
-				onPress: () => {
-					ToastAndroid.show("History Cleared", ToastAndroid.SHORT)
-					resetHistory()
-
-					Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-				}
-			}
-		])
-	}
-
 	return (
 		<View
 			className={`${theme ? "bg-neutral-950" : "bg-neutral-200"} flex-1 gap-4 p-4`}
 		>
 			<HistoryCard
 				history={history}
-				onPress={() => {
-					reset()
-				}}
+				onPress={() =>
+					$changeList([
+						{
+							name: "Clear History",
+							link: "",
+							type: "check",
+							active: false,
+							callback: () => {
+								clearHistory()
+								$changeList([])
+							}
+						}
+					])
+				}
 				theme={theme}
 			/>
 		</View>

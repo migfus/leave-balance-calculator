@@ -82,13 +82,16 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 						/>
 					)}
 				>
-					<BottomSheetView className="flex flex-col px-6 pb-10 pt-6 divide-y gap-6 divide-gray-300">
+					<BottomSheetView
+						className="flex flex-col divide-y divide-gray-300"
+						style={{ paddingHorizontal: 24, paddingBottom: 40, paddingTop: 24 }}
+					>
 						{$list_store.map((item, index) =>
 							item.type === "copy" ? (
 								<TouchableOpacity
 									key={index}
 									onPress={() => copyToClipboard(item.link)}
-									className="flex flex-row justify-end gap-2 items-center"
+									className="flex flex-row justify-end gap-2 items-center mt-4"
 								>
 									<Text
 										className={`${theme ? "text-neutral-300" : "text-neutral-600"} text-xl font-semibold`}
@@ -105,7 +108,7 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 										item.callback()
 										Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 									}}
-									className="flex flex-row justify-end gap-2 items-center"
+									className="flex flex-row justify-end gap-2 items-center mt-4"
 								>
 									<Text
 										className={`${theme ? "text-neutral-300" : "text-neutral-600"} text-xl font-semibold`}
@@ -129,7 +132,7 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 								<TouchableOpacity
 									key={index}
 									onPress={() => $changeListStore([])}
-									className="flex flex-row justify-end gap-2 items-center "
+									className="flex flex-row justify-end gap-2 items-center mt-4"
 								>
 									<Text className="text-xl font-semibold text-neutral-600">
 										{item.name}
@@ -146,7 +149,7 @@ const BottomSheetModalComponent = ({ children }: Props) => {
 								bottomSheetModalRef.current?.dismiss()
 								Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
 							}}
-							className="flex flex-row justify-end gap-2 items-center mb-6"
+							className="flex flex-row justify-end gap-2 items-center mb-6 mt-4"
 						>
 							<Text
 								className={`${theme ? "text-red-400" : "text-red-600"} text-xl font-semibold `}
